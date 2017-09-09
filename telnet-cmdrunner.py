@@ -27,12 +27,14 @@ with open('cisco_ios_telnet_devices.json') as dev_file:
     cisco_ios_telnet_devices = json.load(dev_file)
 
 
-domain_name = [ 'ip domain-name a-corp.com']
+domain_name = ['ip domain-name a-corp.com']
 
-crypto_key_gen = [ 'crypto key generate rsa label SSH mod 2048']
+crypto_key_gen = ['crypto key generate rsa label SSH mod 2048']
 
-ssh_commands = [ 'ip ssh rsa keypair-name SSH',
-                 'ip ssh version 2',]
+ssh_commands = ['ip ssh rsa keypair-name SSH',
+                'ip ssh version 2',
+                'line vty 0 4',
+                'transport input ssh telnet']
 
 
 for device in cisco_ios_telnet_devices:
