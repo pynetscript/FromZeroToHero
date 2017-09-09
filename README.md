@@ -17,7 +17,8 @@ I would highly suggest to go over [this](https://www.youtube.com/user/GPM365/pla
 
 # Prerequisites
 
-Telnet reachability.   
+Box with [netmiko](https://github.com/ktbyers/netmiko) installed.  
+Telnet reachability to devices.    
 Username/secret/privilege 15 preconfigured (example: `user a.lambreca priv 15 secret cisco`).  
 
 # tools.py
