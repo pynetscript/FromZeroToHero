@@ -57,7 +57,7 @@ This is the main script that we will run.
 It will prompt us like this and you will input your username and your password x 2.
 
 ```
-Username: a.lambreca
+Username:
 Password: 
 Retype password: 
 ```
