@@ -33,7 +33,7 @@ crypto_key_gen = [ 'crypto key generate rsa label SSH mod 2048']
 
 ssh_commands = [ 'ip ssh rsa keypair-name SSH',
                  'ip ssh version 2',]
-
+ 
 
 for device in cisco_ios_telnet_devices:
     device['username'] = username
