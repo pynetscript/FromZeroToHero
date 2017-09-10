@@ -26,7 +26,7 @@ Username/secret/privilege 15 preconfigured (example: `user a.lambreca priv 15 se
 Getpass function asks for password but doesn't show it in screen.  
 Custom function to get input that is compatible with both Python 2 and 3.  
 Prompts for, and returns a username and password.  
-This is going to be imported on our python script (telnet-cmdrunner.py).
+This script is going to be imported on our main python script (telnet-cmdrunner.py).
 
 # cisco_ios_telnet_devices.json
 
@@ -39,10 +39,10 @@ cisco_ios_telnet,192.168.1.160
 cisco_ios_telnet,192.168.1.170
 ```
 
-Copy paste into everything on the csv file to [Mr. Data Converter](https://shancarter.github.io/mr-data-converter/#).  
+Copy paste everything from the csv file to [Mr. Data Converter](https://shancarter.github.io/mr-data-converter/#).  
 From the bottom, choose **Output as JSON - Properties**.  
-From the left (SETTINGS) choose **Delimiter Comma** and **Decimal Sign Commad**.  
-Now this is what i should get from the example above.  
+From the left, choose **Delimiter Comma** and **Decimal Sign Commad**.  
+This is what i should get from the example above.  
 
 ```
 [{"device_type":"cisco_ios_telnet","ip":"192.168.1.150"},
