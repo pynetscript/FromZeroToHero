@@ -25,7 +25,7 @@ Username/secret/privilege 15 preconfigured (example: `user a.lambreca priv 15 se
 
 Getpass function asks for password but doesn't show it in screen.  
 Custom function to get input that is compatible with both Python 2 and 3.  
-Prompts for, and returns a username and password.  
+Prompts for, and returns a username and password (password is asked x 2, and if they don't match you get an error message `>> Passwords do not match. Try again. `. The script though will continue to run, but you should use Ctrl + C to cancel the script and try again.
 This script is going to be imported on our main python script (telnet-cmdrunner.py).
 
 # cisco_ios_telnet_devices.json
