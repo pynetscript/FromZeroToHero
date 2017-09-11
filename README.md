@@ -88,11 +88,6 @@ I have also added a delay factor on the `crypto key generate rsa label SSH mod 2
 
 Then i run `write memory` and if i get this output: `Overwrite the previous NVRAM configuration?[confirm]` i will go ahead and send blank line (like enter) which is the `output = connection.send_command_timing('')` line.
 
-        output = connection.send_command_timing('write memory')
-        print(output)
-        if 'Overwrite the previous NVRAM configuration?[confirm]' in output:
-            output = connection.send_command_timing('')
-  
 After all commands are sent to a device, it will disconnect, and repeat this process for the next device.  
   
 Here is a demo:  
