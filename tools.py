@@ -1,4 +1,7 @@
 from __future__ import absolute_import, division, print_function
+# "sudo pip install colorama" is required to download the Python2 package.
+# "sudo pip3 install colorama" is required to download the PYthon3 package.
+from colorama import init, Fore, Style
 
 
 ### Getpass function asks for password but doesn't show it in screen.
@@ -16,7 +19,7 @@ def get_input(prompt=''):
 
 ### Prompts for, and returns a username and password.
 def get_credentials():
-    print('='*79)
+    print(Fore.YELLOW + '='*79 + Style.RESET_ALL)
     username = get_input('Username: ')
     password = None
     while not password:
