@@ -3,9 +3,10 @@
 ```
 Written by:             Aleks Lambreca   
 Creation date:          09/09/2017      
-Last modified date:     09/09/2017      
+Last modified date:     11/09/2017      
   
-Script use:             Telnet into cisco devices (with Netmiko) and configure SSH.    
+Script use:             Telnet into cisco devices (with Netmiko) and configure SSH. 
+                        Script is both Python2 & 3 compatible.
 Script input:           Username/Password   
 Script output:          IOS command output  
 ```
@@ -22,6 +23,14 @@ Telnet reachability to devices.
 Username/secret/privilege 15 preconfigured (example: `user a.lambreca priv 15 secret cisco`).  
 
 # tools.py
+
+Using Colorama package so i can change the color on line 21.
+Need to download the package for Py2 and Py3:
+
+```
+sudo pip install colorama
+sudo pip3 install colorama
+```
 
 Getpass function asks for password but doesn't show it in screen.  
 Custom function to get input that is compatible with both Python 2 and 3.  
@@ -76,18 +85,24 @@ transport input ssh telnet
 ```
 
 I have also added a delay factor on the `crypto key generate rsa label SSH mod 2048` command because it takes a while.  
+
+Then i run `write memory` and if i get this output: `Overwrite the previous NVRAM configuration?[confirm]` i will go ahead and send blank line (like enter) which is the `output = connection.send_command_timing('')` line.
+
+        output = connection.send_command_timing('write memory')
+        print(output)
+        if 'Overwrite the previous NVRAM configuration?[confirm]' in output:
+            output = connection.send_command_timing('')
   
 After all commands are sent to a device, it will disconnect, and repeat this process for the next device.  
   
 Here is a demo:  
 
 ```
-aleks@acorp:~/pyscript$ ./telnet-cmdrunner.py 
+aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py 
 ===============================================================================
 Username: a.lambreca
 Password: 
 Retype password: 
-
 ===============================================================================
 Connecting to device: 192.168.1.150
 -------------------------------------------------------------------------------
@@ -105,7 +120,7 @@ R5(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 9 seconds)
+[OK] (elapsed time was 11 seconds)
 
 R5(config)#end
 R5#
@@ -119,7 +134,8 @@ R5(config-line)#transport input ssh telnet
 R5(config-line)#end
 R5#
 -------------------------------------------------------------------------------
-
+Building configuration...
+[OK]
 ===============================================================================
 Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
@@ -136,10 +152,7 @@ R6(config)#crypto key generate rsa label SSH mod 2048
 % They will be replaced.
 
 % The key modulus size is 2048 bits
-% Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 4 seconds)
-
-R6(config)#end
+% Generating 2048 bit RSA keys, keys will be non-exportable...end
 R6#
 -------------------------------------------------------------------------------
 config term
@@ -151,7 +164,8 @@ R6(config-line)#transport input ssh telnet
 R6(config-line)#end
 R6#
 -------------------------------------------------------------------------------
-
+Building configuration...
+[OK]
 ===============================================================================
 Connecting to device: 192.168.1.170
 -------------------------------------------------------------------------------
@@ -164,7 +178,8 @@ R7#
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#crypto key generate rsa label SSH mod 2048
-The name for the keys will be: SSH
+% You already have RSA keys defined named SSH.
+% They will be replaced.
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...end
@@ -179,4 +194,6 @@ R7(config-line)#transport input ssh telnet
 R7(config-line)#end
 R7#
 -------------------------------------------------------------------------------
+Building configuration...
+[OK]
 ```
