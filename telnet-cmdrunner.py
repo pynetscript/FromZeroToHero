@@ -2,20 +2,24 @@
 
 
 from __future__ import absolute_import, division, print_function
+# "sudo pip install colorama" is required to download the Python2 package.
+# "sudo pip3 install colorama" is required to download the PYthon3 package.
+from colorama import init, Fore, Style
 
-import netmiko
+
+import netmiko  # "sudo pip3 install netmiko" required for Python3.
 import json
 import tools
-import sys      ### Capture and handle signals past from the Operating System.
+import sys      # Capture and handle signals past from the Operating System.
 import signal
 
 
-signal.signal(signal.SIGPIPE, signal.SIG_DFL)  ### IOERror: Broken pipe
-signal.signal(signal.SIGINT, signal.SIG_DFL)   ### KeyboardInterrupt: Ctrl-C
+signal.signal(signal.SIGPIPE, signal.SIG_DFL)  # IOERror: Broken pipe
+signal.signal(signal.SIGINT, signal.SIG_DFL)   # KeyboardInterrupt: Ctrl-C
 
 
-### If authentication fails, the script will continue to run.
-### If connection times out, the script will continue to run.
+# If authentication fails, the script will continue to run.
+# If connection times out, the script will continue to run.
 netmiko_exceptions = (netmiko.ssh_exception.NetMikoTimeoutException,
                       netmiko.ssh_exception.NetMikoAuthenticationException)
 
@@ -41,23 +45,26 @@ for device in cisco_ios_telnet_devices:
     device['username'] = username
     device['password'] = password
     try:
-        print()
-        print('='*79)
+        print(Fore.YELLOW + '='*79 + Style.RESET_ALL)
         print('Connecting to device:', device['ip'])
         print('-'*79)
-        ### Establish session to each device in "cisco_ios_telnet_devices.json"
-        ### ** is used to unpack the dictonary for Netmiko
+        # Establish session to each device in "cisco_ios_telnet_devices.json"
+        # ** is used to unpack the dictonary for Netmiko
         connection = netmiko.ConnectHandler(**device)
-
         print(connection.send_config_set(domain_name))
         print('-'*79)
         print(connection.send_config_set(crypto_key_gen, delay_factor=10))
         print('-'*79)
         print(connection.send_config_set(ssh_commands))
         print('-'*79)
+        output = connection.send_command_timing('write memory')
+        print(output)
+        if 'Overwrite the previous NVRAM configuration?[confirm]' in output:
+            output = connection.send_command_timing('')
 
-        ### Disconnect sessions.
+        # Disconnect sessions.
         connection.disconnect()
+
 
     except netmiko_exceptions as e:
         print('Failed to:', device['ip'])
