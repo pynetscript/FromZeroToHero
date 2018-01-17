@@ -79,7 +79,7 @@ crypto key generate rsa label SSH mod 2048
 ip ssh rsa keypair-name SSH
 ip ssh version 2
 line vty 0 4
-transport input ssh telnet
+transport input ssh
 ```
 
 I have also added a delay factor on the `crypto key generate rsa label SSH mod 2048` command because it takes a while to generate the SSH keys.  
@@ -123,7 +123,7 @@ Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#ip ssh rsa keypair-name SSH
 R5(config)#ip ssh version 2
 R5(config)#line vty 0 4
-R5(config-line)#transport input ssh telnet
+R5(config-line)#transport input ssh
 R5(config-line)#end
 R5#
 -------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ Enter configuration commands, one per line.  End with CNTL/Z.
 R6(config)#ip ssh rsa keypair-name SSH
 R6(config)#ip ssh version 2
 R6(config)#line vty 0 4
-R6(config-line)#transport input ssh telnet
+R6(config-line)#transport input ssh
 R6(config-line)#end
 R6#
 -------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#ip ssh rsa keypair-name SSH
 R7(config)#ip ssh version 2
 R7(config)#line vty 0 4
-R7(config-line)#transport input ssh telnet
+R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
 -------------------------------------------------------------------------------
