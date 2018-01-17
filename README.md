@@ -90,7 +90,7 @@ I added a delay factor on the `crypto key generate rsa label SSH mod 2048` comma
 
 # Disable Telnet
 
-If you don't want to disable telnet access to devices comment line 79 up to line 95 in **telnet-cmdrunner.py**.  
+If you don't want to disable telnet access to devices comment line 82 up to line 98 in **telnet-cmdrunner.py**.  
   
 # Successful demo:  
 
