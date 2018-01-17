@@ -3,7 +3,7 @@
 ```
 Written by:             Aleks Lambreca   
 Creation date:          09/09/2017      
-Last modified date:     11/09/2017      
+Last modified date:     17/01/2018      
   
 Script use:             Telnet into cisco devices (with Netmiko) and configure SSH. 
                         Script is both Python2 & 3 compatible.
