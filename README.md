@@ -11,9 +11,9 @@ Script input:           Username/Password
 Script output:          IOS command output  
 ```
 
-# Notes
+# Note
 
-This isn't the best python script out there.  
+This isn't the best python script out there :)  
 
 # Prerequisites
 
@@ -79,14 +79,16 @@ crypto key generate rsa label SSH mod 2048
 ip ssh rsa keypair-name SSH
 ip ssh version 2
 line vty 0 4
-transport input ssh
+transport input ssh telnet
 ```
 
 I have also added a delay factor on the `crypto key generate rsa label SSH mod 2048` command because it takes a while to generate the SSH keys.  
 
-Then i run `write memory` and if i get this output: `Overwrite the previous NVRAM configuration?[confirm]` i will go ahead and send blank line (like enter) which is the `output = connection.send_command_timing('')` line.
+Then i run `write memory` and if i get the output:   
+`Overwrite the previous NVRAM configuration?[confirm]` or `Destination filename [startup-config]`  
+i send blank line (like enter) which is the `output = connection.send_command_timing('')` line.  
 
-After all commands are sent to a device, the script will repeat the process for tall devices in cisco_ios_telnet_devices.json. When it finishes it will disconnect the SSH sessions from all devices. 
+After all commands are sent to a device, the script will repeat the process for tall devices in cisco_ios_telnet_devices.json. When it finishes it will clean and disconnect the sessions from all devices. 
   
 Here is a demo:  
 
