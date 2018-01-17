@@ -25,7 +25,7 @@ This isn't the best python script out there :)
 
 - Colorama (optional).  
 
-```
+```Cython
 sudo pip install colorama
 sudo pip3 install colorama
 ```
@@ -39,7 +39,7 @@ sudo pip3 install colorama
 
 Create an csv file like this example:  
 
-```
+```CSV
 device_type,ip
 cisco_ios_telnet,192.168.1.150
 cisco_ios_telnet,192.168.1.160
@@ -92,7 +92,7 @@ After all commands are sent to a device, the script will repeat the process for 
   
 # Successful demo:  
 
-```
+```Cython
 aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py 
 ===============================================================================
 Username: a.lambreca
