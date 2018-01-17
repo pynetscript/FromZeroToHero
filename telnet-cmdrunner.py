@@ -38,7 +38,7 @@ crypto_key_gen = ['crypto key generate rsa label SSH mod 2048']
 ssh_commands = ['ip ssh rsa keypair-name SSH',
                 'ip ssh version 2',
                 'line vty 0 4',
-                'transport input ssh telnet']
+                'transport input ssh']
 
 
 for device in cisco_ios_telnet_devices:
@@ -60,6 +60,8 @@ for device in cisco_ios_telnet_devices:
         output = connection.send_command_timing('write memory')
         print(output)
         if 'Overwrite the previous NVRAM configuration?[confirm]' in output:
+            output = connection.send_command_timing('')
+        if 'Destination filename [startup-config]' in output:
             output = connection.send_command_timing('')
 
         # Disconnect sessions.
