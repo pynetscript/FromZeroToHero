@@ -90,7 +90,7 @@ i send blank line (like enter) which is the `output = connection.send_command_ti
 
 After all commands are sent to a device, the script will repeat the process for tall devices in cisco_ios_telnet_devices.json. When it finishes it will clean and disconnect the sessions from all devices. 
   
-Here is a successful demo:  
+# Successful demo:  
 
 ```
 aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py 
@@ -193,7 +193,8 @@ Building configuration...
 [OK]
 ```
 
-Here is an unsuccessful demo:
+# Unsuccessful demo:
+
 - R5: I have misconfigured authentication.
 - R6: I have no TCP/23 (Telnet) reachability.
 - R7: This router is configured correctly.
