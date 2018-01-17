@@ -199,7 +199,7 @@ Building configuration...
 - R6: I have no TCP/23 (Telnet) reachability.
 - R7: This router is configured correctly.
 
-```Cycript
+```Cython
 aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py 
 ===============================================================================
 Username: a.lambreca
