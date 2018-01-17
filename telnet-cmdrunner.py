@@ -63,6 +63,9 @@ for device in cisco_ios_telnet_devices:
         print(connection.send_config_set(ssh_commands))
         print('-'*79)
         
+        # This part of the script also works on cisco devices with an alias configured
+        # to map wr to copy running-config startup-config. 
+        # alias exec wr copy run start
         output = connection.send_command_timing('write memory')
         print(output)
         if 'Overwrite the previous NVRAM configuration?[confirm]' in output:
