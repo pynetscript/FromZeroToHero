@@ -5,7 +5,7 @@ Written by:             Aleks Lambreca
 Creation date:          09/09/2017      
 Last modified date:     17/01/2018      
   
-Script use:             Telnet into cisco devices (with Netmiko) and configure SSH. 
+Script use:             Telnet into cisco devices (with Netmiko), configure SSH, disable telnet. 
                         Script is both Python2 & 3 compatible.
 Script input:           Username/Password   
 Script output:          IOS command output  
@@ -61,34 +61,36 @@ Then i copy/pasted the output into cisco_ios_telnet_devices.json which is going 
 
 # telnet-cmdrunner.py
 
-This is the main script that we will run.  
-It will prompt us for a username and a password (password required twice).
+This is the main script that we will run.   
+
+First:  
+- It will prompt us for a username and a password (password required twice).     
 
 ```
 Username:
 Password: 
 Retype password: 
 ```
+  
+Then the script will:    
+- Connect to the first device in **cisco_ios_telnet_devices.json**.    
+- It will run the commands in `domain_name`.  
+- It will run the commands in `crypto_key_gen`.   
+- It will run the commands in `ssh_commands`.   
+- It wil save the running-config to startup-config.  
+- It will clean and end the session.  
+- It will run the commands in `disable_telnet`.  
+- It will save the running-config to startup-config.  
+- It will clean and end the session.  
 
-Then the script will connect to each device in **cisco_ios_telnet_devices.json** and run the commands in `domain_name`, `crypto_key_gen` and `ssh_commands`.  
+Finally the script will:  
+- Repeat the process for all devices in **cisco_ios_telnet_devices.json**.  
 
-Commands:  
-```
-ip domain-name a-corp.com
-crypto key generate rsa label SSH mod 2048
-ip ssh rsa keypair-name SSH
-ip ssh version 2
-line vty 0 4
-transport input ssh telnet
-```
+I added a delay factor on the `crypto key generate rsa label SSH mod 2048` command because it takes a while to generate the SSH keys.  
 
-I have also added a delay factor on the `crypto key generate rsa label SSH mod 2048` command because it takes a while to generate the SSH keys.  
+# Disable Telnet
 
-Then i run `write memory` and if i get the output:   
-`Overwrite the previous NVRAM configuration?[confirm]` or `Destination filename [startup-config]`  
-i send blank line (like enter) which is the `output = connection.send_command_timing('')` line.  
-
-After all commands are sent to a device, the script will repeat the process for tall devices in cisco_ios_telnet_devices.json. When it finishes it will clean and disconnect the sessions from all devices. 
+If you don't want to disable telnet access to devices comment line 79 up to line 95 in **telnet-cmdrunner.py**.  
   
 # Successful demo:  
 
@@ -110,12 +112,11 @@ R5#
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#crypto key generate rsa label SSH mod 2048
-% You already have RSA keys defined named SSH.
-% They will be replaced.
+The name for the keys will be: SSH
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 11 seconds)
+[OK] (elapsed time was 18 seconds)
 
 R5(config)#end
 R5#
@@ -124,6 +125,18 @@ config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#ip ssh rsa keypair-name SSH
 R5(config)#ip ssh version 2
+R5(config)#line vty 0 4
+R5(config-line)#transport input ssh telnet
+R5(config-line)#end
+R5#
+-------------------------------------------------------------------------------
+Building configuration...
+[OK]
+===============================================================================
+Connecting to device: 192.168.1.150
+-------------------------------------------------------------------------------
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#line vty 0 4
 R5(config-line)#transport input ssh
 R5(config-line)#end
@@ -143,17 +156,31 @@ R6#
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R6(config)#crypto key generate rsa label SSH mod 2048
-% You already have RSA keys defined named SSH.
-% They will be replaced.
+The name for the keys will be: SSH
 
 % The key modulus size is 2048 bits
-% Generating 2048 bit RSA keys, keys will be non-exportable...end
+% Generating 2048 bit RSA keys, keys will be non-exportable...
+[OK] (elapsed time was 9 seconds)
+
+R6(config)#end
 R6#
 -------------------------------------------------------------------------------
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R6(config)#ip ssh rsa keypair-name SSH
 R6(config)#ip ssh version 2
+R6(config)#line vty 0 4
+R6(config-line)#transport input ssh telnet
+R6(config-line)#end
+R6#
+-------------------------------------------------------------------------------
+Building configuration...
+[OK]
+===============================================================================
+Connecting to device: 192.168.1.160
+-------------------------------------------------------------------------------
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
 R6(config)#line vty 0 4
 R6(config-line)#transport input ssh
 R6(config-line)#end
@@ -173,17 +200,31 @@ R7#
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#crypto key generate rsa label SSH mod 2048
-% You already have RSA keys defined named SSH.
-% They will be replaced.
+The name for the keys will be: SSH
 
 % The key modulus size is 2048 bits
-% Generating 2048 bit RSA keys, keys will be non-exportable...end
+% Generating 2048 bit RSA keys, keys will be non-exportable...
+[OK] (elapsed time was 22 seconds)
+
+R7(config)#end
 R7#
 -------------------------------------------------------------------------------
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#ip ssh rsa keypair-name SSH
 R7(config)#ip ssh version 2
+R7(config)#line vty 0 4
+R7(config-line)#transport input ssh telnet
+R7(config-line)#end
+R7#
+-------------------------------------------------------------------------------
+Building configuration...
+[OK]
+===============================================================================
+Connecting to device: 192.168.1.170
+-------------------------------------------------------------------------------
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#line vty 0 4
 R7(config-line)#transport input ssh
 R7(config-line)#end
@@ -227,13 +268,11 @@ R7#
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#crypto key generate rsa label SSH mod 2048
-The name for the keys will be: SSH
+% You already have RSA keys defined named SSH.
+% They will be replaced.
 
 % The key modulus size is 2048 bits
-% Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 20 seconds)
-
-R7(config)#end
+% Generating 2048 bit RSA keys, keys will be non-exportable...end
 R7#
 -------------------------------------------------------------------------------
 config term
@@ -242,6 +281,18 @@ R7(config)#ip ssh rsa keypair-name SSH
 R7(config)#ip ssh version 2
 R7(config)#line vty 0 4
 R7(config-line)#transport input ssh telnet
+R7(config-line)#end
+R7#
+-------------------------------------------------------------------------------
+Building configuration...
+[OK]
+===============================================================================
+Connecting to device: 192.168.1.170
+-------------------------------------------------------------------------------
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+R7(config)#line vty 0 4
+R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
 -------------------------------------------------------------------------------
