@@ -23,18 +23,17 @@ This isn't the best python script out there.
 
 # tools.py
 
-Using Colorama package so i can change the color on line 21.
-Need to download the package for Py2 and Py3:
+- Colorama (optional).  
 
 ```
 sudo pip install colorama
 sudo pip3 install colorama
 ```
 
-Getpass function asks for password but doesn't show it in screen.  
-Custom function to get input that is compatible with both Python 2 and 3.  
-Prompts for, and returns a username and password (password is asked x 2, and if they don't match you get an error message `>> Passwords do not match. Try again. `. The script though will continue to run, but you should use Ctrl + C to cancel the script and try again.  
-This script is going to be imported on our main python script (telnet-cmdrunner.py).  
+- Getpass function asks for password but hides the input.  
+- Custom function (get_input) to get input that is compatible with both Python 2 and 3.  
+- Custom function (get_credentials) that prompts for, and returns a username and password (password is asked twice, and if they don't match you get an error message `>> Passwords do not match. Try again. `. The script though will continue to run, but you should use Ctrl + C to cancel the script and try again.  
+- tools.py is going to be imported on our main python script (telnet-cmdrunner.py). This way we have a cleaner script to work with.  
 
 # cisco_ios_telnet_devices.json
 
@@ -50,7 +49,7 @@ cisco_ios_telnet,192.168.1.170
 Copy paste everything from the csv file to [Mr. Data Converter](https://shancarter.github.io/mr-data-converter/#).  
 From the bottom, choose **Output as JSON - Properties**.  
 From the left, choose **Delimiter Comma** and **Decimal Sign Commad**.  
-This is what i should get from the example above.  
+This is what you should get from the example above.  
 
 ```
 [{"device_type":"cisco_ios_telnet","ip":"192.168.1.150"},
@@ -58,12 +57,12 @@ This is what i should get from the example above.
 {"device_type":"cisco_ios_telnet","ip":"192.168.1.170"}]
 ```
 
-This is how i generated my list of devices that netmiko will telnet on them.  
+Then i copy/pasted the output into cisco_ios_telnet_devices.json which is going to be used on our main python script.
 
 # telnet-cmdrunner.py
 
 This is the main script that we will run.  
-It will prompt us like this and you will input your username and your password x 2.
+It will prompt us for a username and a password (password required twice).
 
 ```
 Username:
@@ -83,11 +82,11 @@ line vty 0 4
 transport input ssh telnet
 ```
 
-I have also added a delay factor on the `crypto key generate rsa label SSH mod 2048` command because it takes a while.  
+I have also added a delay factor on the `crypto key generate rsa label SSH mod 2048` command because it takes a while to generate the SSH keys.  
 
 Then i run `write memory` and if i get this output: `Overwrite the previous NVRAM configuration?[confirm]` i will go ahead and send blank line (like enter) which is the `output = connection.send_command_timing('')` line.
 
-After all commands are sent to a device, it will disconnect, and repeat this process for the next device.  
+After all commands are sent to a device, the script will repeat the process for tall devices in cisco_ios_telnet_devices.json. When it finishes it will disconnect the SSH sessions from all devices. 
   
 Here is a demo:  
 
