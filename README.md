@@ -14,13 +14,12 @@ Script output:          IOS command output
 # Notes
 
 This isn't the best python script out there.  
-I would highly suggest to go over [this](https://www.youtube.com/user/GPM365/playlists) youtube playlist first.  
 
 # Prerequisites
 
-Box with [netmiko](https://github.com/ktbyers/netmiko) installed.  
-Telnet reachability to devices.    
-Username/secret/privilege 15 preconfigured (example: `user a.lambreca priv 15 secret cisco`).  
+1. Box with [netmiko](https://github.com/ktbyers/netmiko) installed.  
+2. Telnet reachability to devices.    
+3. Username/secret/privilege 15 preconfigured (example: `user a.lambreca priv 15 secret cisco`).  
 
 # tools.py
 
