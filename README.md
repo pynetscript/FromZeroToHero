@@ -18,8 +18,8 @@ This isn't the best python script out there :)
 # Prerequisites
 
 1. Box with [netmiko](https://github.com/ktbyers/netmiko) installed.  
-2. Telnet reachability to devices.    
-3. Username/secret/privilege 15 preconfigured (example: `user a.lambreca priv 15 secret cisco`).  
+2. Telnet (TCP/23) reachability to devices.    
+3. Local username with privilege 15 (example: `user a.lambreca priv 15 secret cisco`).  
 
 # tools.py
 
