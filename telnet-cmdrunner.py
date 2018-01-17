@@ -12,6 +12,7 @@ import json
 import tools
 import sys      # Capture and handle signals past from the Operating System.
 import signal
+import socket
 
 
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)  # IOERror: Broken pipe
@@ -21,7 +22,8 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)   # KeyboardInterrupt: Ctrl-C
 # If authentication fails, the script will continue to run.
 # If connection times out, the script will continue to run.
 netmiko_exceptions = (netmiko.ssh_exception.NetMikoTimeoutException,
-                      netmiko.ssh_exception.NetMikoAuthenticationException)
+                      netmiko.ssh_exception.NetMikoAuthenticationException,
+                      socket.error)
 
 
 username, password = tools.get_credentials()
@@ -39,6 +41,9 @@ ssh_commands = ['ip ssh rsa keypair-name SSH',
                 'ip ssh version 2',
                 'line vty 0 4',
                 'transport input ssh telnet']
+
+disable_telnet = ['line vty 0 4',
+                  'transport input ssh']
 
 
 for device in cisco_ios_telnet_devices:
@@ -65,11 +70,30 @@ for device in cisco_ios_telnet_devices:
         if 'Destination filename [startup-config]' in output:
             output = connection.send_command_timing('')
             
-        # Any needed cleanup before closing sessions.
+        # Session cleanup before closing sessions.
         connection.cleanup()
         # Disconnect sessions.
         connection.disconnect()
+        
+  
+        print(Fore.RED + '='*79 + Style.RESET_ALL)
+        print('Connecting to device:', device['ip'])
+        print('-'*79)
+        connection = netmiko.ConnectHandler(**device)
+        print(connection.send_config_set(disable_telnet))
+        print('-'*79)
 
+        output = connection.send_command_timing('write memory')
+        print(output)
+        if 'Overwrite the previous NVRAM configuration?[confirm]' in output:
+            output = connection.send_command_timing('')
+
+        if 'Destination filename [startup-config]' in output:
+            output = connection.send_command_timing('')
+
+        connection.cleanup()
+        connection.disconnect()
+   
 
     except netmiko_exceptions as e:
         print('Failed to:', device['ip'])
