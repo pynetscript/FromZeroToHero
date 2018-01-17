@@ -90,7 +90,7 @@ i send blank line (like enter) which is the `output = connection.send_command_ti
 
 After all commands are sent to a device, the script will repeat the process for tall devices in cisco_ios_telnet_devices.json. When it finishes it will clean and disconnect the sessions from all devices. 
   
-Here is a demo:  
+Here is a successful demo:  
 
 ```
 aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py 
@@ -186,6 +186,61 @@ R7(config)#ip ssh rsa keypair-name SSH
 R7(config)#ip ssh version 2
 R7(config)#line vty 0 4
 R7(config-line)#transport input ssh
+R7(config-line)#end
+R7#
+-------------------------------------------------------------------------------
+Building configuration...
+[OK]
+```
+
+Here is an unsuccessful demo:
+- R5: I have misconfigured authentication.
+- R6: I have no TCP/23 (Telnet) reachability.
+- R7: This router is configured correctly.
+
+```
+aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py 
+===============================================================================
+Username: a.lambreca
+Password: 
+Retype password: 
+===============================================================================
+Connecting to device: 192.168.1.150
+-------------------------------------------------------------------------------
+Failed to: 192.168.1.150
+Telnet login failed: 192.168.1.150
+===============================================================================
+Connecting to device: 192.168.1.160
+-------------------------------------------------------------------------------
+Failed to: 192.168.1.160
+[Errno 113] No route to host
+===============================================================================
+Connecting to device: 192.168.1.170
+-------------------------------------------------------------------------------
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+R7(config)#ip domain-name a-corp.com
+R7(config)#end
+R7#
+-------------------------------------------------------------------------------
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+R7(config)#crypto key generate rsa label SSH mod 2048
+The name for the keys will be: SSH
+
+% The key modulus size is 2048 bits
+% Generating 2048 bit RSA keys, keys will be non-exportable...
+[OK] (elapsed time was 20 seconds)
+
+R7(config)#end
+R7#
+-------------------------------------------------------------------------------
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+R7(config)#ip ssh rsa keypair-name SSH
+R7(config)#ip ssh version 2
+R7(config)#line vty 0 4
+R7(config-line)#transport input ssh telnet
 R7(config-line)#end
 R7#
 -------------------------------------------------------------------------------
