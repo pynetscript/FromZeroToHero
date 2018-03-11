@@ -4,7 +4,7 @@
 # Written by:           Aleks Lambreca
 # Creation date:        09/09/2017
 # Last modified date:   11/03/2018
-# Github:		        https://github.com/pynetscript/FromZeroToHero
+# Github:               https://github.com/pynetscript/FromZeroToHero
 #
 # Script use:           Telnet into cisco_ios_telnet_devices.json and configure
 #                       SSH. The script is both Python2/3 compatible.
