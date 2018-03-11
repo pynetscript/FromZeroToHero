@@ -51,12 +51,6 @@ signal.signal(signal.SIGPIPE, signal.SIG_DFL)  # IOERror: Broken pipe
 signal.signal(signal.SIGINT, signal.SIG_DFL)   # KeyboardInterrupt: Ctrl-C
 
 
-# If authentication fails, the script will continue to run.
-# If connection times out, the script will continue to run.
-# netmiko_exceptions = (netmiko.ssh_exception.NetMikoTimeoutException,
-#                      netmiko.ssh_exception.NetMikoAuthenticationException,
-#                      socket.error)
-
 netmiko_ex_time = (netmiko.ssh_exception.NetMikoTimeoutException, socket.error)
 netmiko_ex_auth = (netmiko.ssh_exception.NetMikoAuthenticationException)
 
@@ -134,10 +128,6 @@ for device in cisco_ios_telnet_devices:
         connection.cleanup()
         connection.disconnect()
 
-
-#    except netmiko_exceptions as e:
-#        print("Failed to:", device['ip'])
-#        print(e)
 
     except netmiko_ex_auth as ex_auth:
         print(Fore.RED + device['ip'], '>> Authentication error')
