@@ -99,7 +99,7 @@ I added a delay factor on the `crypto key generate rsa label SSH mod 2048` comma
 
 # Disable Telnet
 
-If you don't want to disable telnet access to the devices, comment line 82 up to line 98 in **telnet-cmdrunner.py**.  
+If you don't want to disable telnet access to the devices, comment line 111 up to line 129 in **telnet-cmdrunner.py**.  
   
 # Successful demo:  
 
@@ -322,4 +322,11 @@ Building configuration...
 | Script ended:             2018-03-11 17:11:31.171253                        |
 | Script duration (h/m/s):  0:02:17.639746                                    |
 +-----------------------------------------------------------------------------+
+```
+
+# fromzerotohero.log:
+
+```
+2018-03-11 17:09:20,923 WARNING Telnet login failed: 192.168.1.150
+2018-03-11 17:09:23,923 WARNING [Errno 113] No route to host
 ```
