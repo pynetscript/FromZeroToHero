@@ -101,7 +101,7 @@ I added a delay factor on the `crypto key generate rsa label SSH mod 2048` comma
 
 If you don't want to disable telnet access to the devices, comment line 111 up to line 129 in **telnet-cmdrunner.py**.  
   
-# Successful demo:  
+# Successful demo  
 
 ```Cython
 aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py 
@@ -250,7 +250,7 @@ Overwrite the previous NVRAM configuration?[confirm]
 +-----------------------------------------------------------------------------+
 ```
 
-# Unsuccessful demo:
+# Unsuccessful demo
 
 - R5: I have misconfigured authentication.
 - R6: I have no Telnet (TCP/23) reachability.
@@ -324,7 +324,7 @@ Building configuration...
 +-----------------------------------------------------------------------------+
 ```
 
-# fromzerotohero.log:
+# fromzerotohero.log
 
 ```
 2018-03-11 17:09:20,923 WARNING Telnet login failed: 192.168.1.150
