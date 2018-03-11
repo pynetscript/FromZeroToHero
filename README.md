@@ -6,6 +6,7 @@ Creation date:        09/09/2017
 Last modified date:   11/03/2018
 
 Script use:           Telnet into cisco_ios_telnet_devices.json and configure SSH.
+                      Disable telnet (optional).
 
 Script input:         Username/Password
 
