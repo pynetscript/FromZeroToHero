@@ -1,6 +1,0 @@
-ip domain-name a-corp.com
-crypto key generate rsa label SSH mod 2048
-ip ssh rsa keypair-name SSH
-ip ssh version 2
-line vty 0 4
- transport input ssh
