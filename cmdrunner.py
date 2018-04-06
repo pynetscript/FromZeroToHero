@@ -18,9 +18,9 @@
 # Script input:         SSH Username/Password
 #                       Specify devices as a .json file
 #                       Note: See "telnet/router/7200.json" as an example
-#                       Prompted: domain name
-#                       Prompted: SSH key size
-#                       Prompted: disable telnet yes/no
+#                       Prompt: "Enter domain name (example.com):"
+#                       Prompt: "Enter SSH key size (1024, 2048, 4096):"
+#                       Prompt: "Disable telnet (yes/no)?"
 #
 # Script output:        Cisco IOS command output
 #                       Statistics
