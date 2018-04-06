@@ -152,7 +152,6 @@ for device in devices:
         connection.disconnect()
 
 
-
     except netmiko_ex_auth as ex_auth:
         print(Fore.RED + device['ip'], '>> Authentication error')
         # Log the error on the working directory in cmdrunner.log
