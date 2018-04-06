@@ -7,22 +7,20 @@
 # Version:              v1.1
 #
 # Script use:           Telnet into Cisco IOS devices and configure SSH.
-#                       Note: Commands are send all at once (not one by one)
-#                             Supports both IPv4 and IPv6 addresses and FQDNs
+#                       Note: Supports both IPv4 and IPv6 addresses and FQDNs
 #                             Both Py2 and Py3 compatible
-#                       The script needs 3 arguments to work:
+#                       The script needs 2 arguments to work:
 #                       - 1st argument: cmdrunner.py
 #                       - 2nd argument: /x.json
-#                       - 3rd argument: /x.txt
-#                       Note: A full command looks like:
-#                       ./cmdrunner.py router/7200.json router/cmd.txt
+#                       Valid command looks like:
+#                       ./cmdrunner.py telnet/router/7200.json
 #
 # Script input:         SSH Username/Password
 #                       Specify devices as a .json file
-#                       Note: See "router/7200.json" as an example
-#                       Specify SSH config commands as a .txt file
-#                       Note: Show commands need "do" in the front
-#                            See "router/cmd.txt" as an example
+#                       Note: See "telnet/router/7200.json" as an example
+#                       Prompted: domain name
+#                       Prompted: SSH key size
+#                       Prompted: disable telnet yes/no
 #
 # Script output:        Cisco IOS command output
 #                       Statistics
@@ -58,7 +56,7 @@ import tools
 # Logs on the working directory on the file named fromzerotohero.log
 logger = logging.getLogger('__name__')
 hdlr = logging.FileHandler('cmdrunner.log')
-formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
 hdlr.setFormatter(formatter)
 logger.addHandler(hdlr)
 logger.setLevel(logging.INFO)
@@ -68,55 +66,51 @@ signal.signal(signal.SIGPIPE, signal.SIG_DFL)  # IOERror: Broken pipe
 signal.signal(signal.SIGINT, signal.SIG_DFL)   # KeyboardInterrupt: Ctrl-C
 
 
-#netmiko_ex_time = (netmiko.ssh_exception.NetMikoTimeoutException, socket.error)
-#netmiko_ex_auth = (netmiko.ssh_exception.NetMikoAuthenticationException)
-
-
 # If connection times out, the script will continue to run.
 # If authentication fails, the script will continue to run.
-netmiko_ex_time = (netmiko.ssh_exception.NetMikoTimeoutException)
+netmiko_ex_time = (netmiko.ssh_exception.NetMikoTimeoutException, socket.error)
 netmiko_ex_auth = (netmiko.ssh_exception.NetMikoAuthenticationException)
 
 
 username, password = tools.get_credentials()
 
 
-# If less than 3 arguments we get an error.
-# If more than 3 arguments we get an error.
-if len(sys.argv) < 3:
-    print('>> Usage: cmdrunner.py /x.json /x.txt')
-    exit()
-
-if len(sys.argv) > 3:
-    print('>> Usage: cmdrunner.py /x.json /x.txt')
+# If less than 2 arguments we get an error.
+# If more than 2 arguments we get an error.
+if len(sys.argv) != 2:
+    print('>> Usage: cmdrunner.py /x.json')
     exit()
 
 
 with open(sys.argv[1]) as dev_file:
     devices = json.load(dev_file)
 
-with open(sys.argv[2]) as cmd_file:
-    commands = cmd_file.readlines()
+
+# Prompt for domain name
+print(Fore.WHITE + '='*79 + Style.RESET_ALL)
+get_domain_name = tools.get_input('Enter domain name (example.com): ')
+domain_name = ('ip domain-name ' + get_domain_name)
+
+# Prompt for domain name
+get_keygen = tools.get_input('Enter SSH key size (1024, 2048, 4096): ')
+keygen = ('crypto key generate rsa label SSH mod ' + get_keygen)
+
+ssh = ['ip ssh rsa keypair-name SSH',
+       'ip ssh version 2']
+
+# Prompt for disable telnet
+disable_telnet = []
+get_telnet = tools.get_input('Disable telnet (yes/no)? ')
+if 'yes' in get_telnet:
+    disable_telnet = ['line vty 0 4', 
+                      'transport input ssh']
+else:
+    pass
 
 
 # Script start timestamp and formatting
 start_timestamp = datetime.datetime.now()
 start_time = start_timestamp.strftime('%d/%m/%Y %H:%M:%S')
-
-
-# Enable SSH commands
-domain_name = ['ip domain-name a-corp.com']
-
-crypto_key_gen = ['crypto key generate rsa label SSH mod 2048']
-
-ssh_commands = ['ip ssh rsa keypair-name SSH',
-                'ip ssh version 2',
-                'line vty 0 4',
-                'transport input ssh telnet']
-
-# Disable Telnet commands
-disable_telnet = ['line vty 0 4',
-                  'transport input ssh']
 
 
 for device in devices:
@@ -130,53 +124,34 @@ for device in devices:
         # SSH into each device from "x.json" (2nd argument).
         connection = netmiko.ConnectHandler(**device)
 
-        # Send each command from "x.txt" to device (3rd argument).
-        for command in commands:
-            print(Fore.RED + '>> ' + command + Style.RESET_ALL)
-            print(connection.send_config_set(command))
-            
-            # If only whitespace in line do nothing and continue.
-            if command in ['\n', '\r\n']:
-                pass
-            else:
-                print(connection.send_config_set(command))
-                print('-'*79)
+        # Get device's hostname and "ip" from .json
+        hostname = connection.base_prompt
+        json_ip = (device['ip'])
 
-        """
-        # Enable SSH commands
+        # Configure domain-name.
+        print('[{0}] [{1}] >> {2}'.format(hostname, json_ip, domain_name) + '\n')
         print(connection.send_config_set(domain_name))
         print('-'*79)
-        print(connection.send_config_set(crypto_key_gen, delay_factor=10))
-        print('-'*79)
-        print(connection.send_config_set(ssh_commands))
-        """
 
-        # Any needed cleanup before closing sessions.
-        #connection.cleanup()
+        # Generate SSH keys (add some delay).
+        print('[{0}] [{1}] >> {2}'.format(hostname, json_ip, keygen) + '\n')   
+        print(connection.send_config_set(keygen, delay_factor=10))
+        print('-'*79)
+
+        # If list empty (we chose "no") skip it.
+        # If list not empty (we chose "yes") disable telnet.
+        if not disable_telnet:
+            pass
+        else:
+            for cmd in disable_telnet:
+                print('[{0}] [{1}] >> '.format(hostname, json_ip) + cmd)
+            print()
+            print(connection.send_config_set(disable_telnet))
+        
         # Disconnect SSH session.
         connection.disconnect()
 
-        # Connect again and disable Telnet.
-        print(Fore.WHITE + '='*79 + Style.RESET_ALL)
-        print('Connecting to device:', device['ip'])
-        print('-'*79)
 
-        connection = netmiko.ConnectHandler(**device)
-
-        print(connection.send_config_set(disable_telnet))
-        print('-'*79)
-
-        # Save running-config to startup-config.
-        save_conf = connection.send_command_timing('write memory')
-        if 'Overwrite the previous NVRAM configuration?[confirm]' in save_conf:
-            save_conf = connection.send_command_timing('')
-        if 'Destination filename [startup-config]' in save_conf:
-            save_conf = connection.send_command_timing('')
-        print(Fore.RED + '>> write memory' + "\n" + Style.RESET_ALL)
-        print(save_conf)
-
-        #connection.cleanup()
-        connection.disconnect()
 
     except netmiko_ex_auth as ex_auth:
         print(Fore.RED + device['ip'], '>> Authentication error')
@@ -184,7 +159,7 @@ for device in devices:
         logger.warning(ex_auth)
 
     except netmiko_ex_time as ex_time:
-        print(Fore.RED + device['ip'], '>> TCP/22 connectivity error')
+        print(Fore.RED + device['ip'], '>> TCP/23 connectivity error')
         # Log the error on the working directory in cmdrunner.log
         logger.warning(ex_time)
 
