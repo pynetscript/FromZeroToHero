@@ -141,11 +141,9 @@ Then the script will:
 - Run the commands to disable telnet.   
 - Disconnect the SSH session.  
 
-**Note**: The script doesn't save the running-config to the startup-config. To save it, run **saver.py**.
-
 Errors:
-- If the is an authentication error we will get an error message `R1.a-corp.com >> Authentication error`
-- If the is an connectivity (TCP/22) error we will get an error message `192.168.1.120 >> TCP/22 connectivity error`
+- If the is an authentication error we will get an error message `r5.a-corp.com >> Authentication error`
+- If the is an connectivity (TCP/22) error we will get an error message `192.168.1.160 >> TCP/22 connectivity error`
 - Errors are logged in the cmdrunner.log
 
 Finally the script will:
@@ -153,6 +151,8 @@ Finally the script will:
 - Timestamp the date & time the script ended in D/M/Y H:M:S format.
 - Subtract start timestamp and end timstamp to get the time (in H:M:S format) of how long the script took to run.
 - Print SCRIPT STATISTICS
+
+**Note**: The script doesn't save the running-config to the startup-config. To save it, run **saver.py**.
 
 ```
 +-----------------------------------------------------------------------------+
@@ -166,7 +166,7 @@ Finally the script will:
 
 # 1st argument (saver.py)
 
-This is the 2nd main script that we will run to save the configuration.   
+This is the script that we will run to save the configuration.   
 Legal examples:   
 - `python2 <1st_argument> <2nd_argument>`
 - `python3 <1st_argument> <2nd_argument>`
