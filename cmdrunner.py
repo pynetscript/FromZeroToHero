@@ -153,12 +153,12 @@ for device in devices:
 
 
     except netmiko_ex_auth as ex_auth:
-        print(Fore.RED + device['ip'], '>> Authentication error')
+        print(Fore.RED + device['ip'], '>> Authentication error' + Style.RESET_ALL)
         # Log the error on the working directory in cmdrunner.log
         logger.warning(ex_auth)
 
     except netmiko_ex_time as ex_time:
-        print(Fore.RED + device['ip'], '>> TCP/23 connectivity error')
+        print(Fore.RED + device['ip'], '>> TCP/23 connectivity error' + Style.RESET_ALL)
         # Log the error on the working directory in cmdrunner.log
         logger.warning(ex_time)
 
