@@ -28,4 +28,4 @@ def get_credentials():
         if password != password_verify:
             print(Fore.RED+'>> Passwords do not match. Try again.' + Style.RESET_ALL)
             password = None
-return username, password
+        return username, password
