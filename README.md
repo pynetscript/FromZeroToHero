@@ -163,8 +163,62 @@ Finally the script will:
 | Script duration (h:m:s):  0:04:21                                           |
 +-----------------------------------------------------------------------------+
 ```
+
+# 1st argument (saver.py)
+
+This is the 2nd main script that we will run to save the configuration.   
+Legal examples:   
+- `python2 <1st_argument> <2nd_argument>`
+- `python3 <1st_argument> <2nd_argument>`
+
+Let's use the following example to explain the script:    
+- `python3 saver.py ssh/router/7200.json`
+
+First the script will:     
+- Create a log file named "saver.log".
+- Prompt us for a username and a password (password required twice).
+
+```
+===============================================================================
+Username: a.lambreca
+Password: 
+Retype password: 
+===============================================================================
+```
   
-# Successful demo  
+Then the script will:    
+- Run `main()` function:
+  - Timestamp the date & time the script started in D/M/Y H:M:S format
+  - Define a queue with size of 40
+  - Use multiple processors and run the ` processor(device, output_q)` function: 
+    - SSH to all the devices at once in the <2nd_argument> (.json)    
+    - Get devices` hostname.
+    - Get devices` "ip" from .json
+    - Save the running-config to startup-config - put into variable "output". 
+    - Put everything from variable "output" into "output_dict" in the format "[hostname] [IP]".
+    - Put "output_dict" into queue named "output_q".
+    - Disconnect the SSH sessions.  
+    - Errors:
+      - If the is an authentication error we will get an error message `r5.a-corp.com >> Authentication error`
+      - If the is an connectivity (TCP/22) error we will get an error message `192.168.1.160 >> TCP/22 connectivity error`
+      - Errors are logged in saver.log
+  - Makes sure all processes have finished
+  - Uses a queue to pass the output back to the parent process.
+  - Timestamp the date & time the script ended in D/M/Y H:M:S format.
+  - Subtract start timestamp and end timstamp to get the time (in H:M:S format) of how long the script took to run.
+  - Print SCRIPT STATISTICS
+
+```
++-----------------------------------------------------------------------------+
+|                              SCRIPT STATISTICS                              |
+|-----------------------------------------------------------------------------|
+| Script started:           06/04/2018 22:12:55                               |
+| Script ended:             06/04/2018 22:13:09                               |
+| Script duration (h:m:s):  0:00:13                                           |
++-----------------------------------------------------------------------------+
+```
+  
+# Successful demo (cmdrunner.py)
 
 ```
 aleks@acorp:~/FromZeroToHero$ python3 cmdrunner.py telnet/router/7200.json
@@ -288,7 +342,7 @@ R7#
 +-----------------------------------------------------------------------------+
 ```
 
-# Unsuccessful demo
+# Unsuccessful demo (cmdrunner.py)
 
 - R5: I have misconfigured authentication.
 - R6: I have no Telnet (TCP/23) reachability.
@@ -362,4 +416,105 @@ R7#
 ```
 06/04/2018 21:49:39 - WARNING - Telnet login failed: r5.a-corp.com
 06/04/2018 21:49:42 - WARNING - [Errno 113] No route to host
+```
+
+
+# Successful demo (saver.py)
+
+```
+aleks@acorp:~/FromZeroToHero$ ./saver.py ssh/router/7200.json 
+===============================================================================
+Username: a.lambreca
+Password: 
+Retype password: 
+===============================================================================
+Connecting to device: r5.a-corp.com
+-------------------------------------------------------------------------------
+===============================================================================
+Connecting to device: 192.168.1.160
+-------------------------------------------------------------------------------
+===============================================================================
+Connecting to device: 2001:db8:acab:a001::170
+-------------------------------------------------------------------------------
+[R6] [192.168.1.160]
+
+>> write memory
+Building configuration...
+
+-------------------------------------------------------------------------------
+
+[R7] [2001:db8:acab:a001::170]
+
+>> write memory
+Building configuration...
+
+-------------------------------------------------------------------------------
+
+[R5] [r5.a-corp.com]
+
+>> write memory
+Building configuration...
+[OK]
+-------------------------------------------------------------------------------
+
+===============================================================================
++-----------------------------------------------------------------------------+
+|                              SCRIPT STATISTICS                              |
+|-----------------------------------------------------------------------------|
+| Script started:           06/04/2018 22:12:55                               |
+| Script ended:             06/04/2018 22:13:09                               |
+| Script duration (h:m:s):  0:00:13                                           |
++-----------------------------------------------------------------------------+
+```
+
+# Unsuccessful demo (saver.py)
+
+- R5: I have misconfigured authentication.
+- R6: I have no SSH (TCP/22) reachability.
+- R7: This router is configured correctly.
+
+```
+aleks@acorp:~/FromZeroToHero$ ./saver.py ssh/router/7200.json 
+===============================================================================
+Username: a.lambreca
+Password: 
+Retype password: 
+===============================================================================
+Connecting to device: r5.a-corp.com
+-------------------------------------------------------------------------------
+===============================================================================
+Connecting to device: 192.168.1.160
+-------------------------------------------------------------------------------
+===============================================================================
+Connecting to device: 2001:db8:acab:a001::170
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+r5.a-corp.com >> Authentication error
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+192.168.1.160 >> TCP/22 connectivity error
+-------------------------------------------------------------------------------
+[R7] [2001:db8:acab:a001::170]
+
+>> write memory
+Building configuration...
+
+-------------------------------------------------------------------------------
+
+===============================================================================
++-----------------------------------------------------------------------------+
+|                              SCRIPT STATISTICS                              |
+|-----------------------------------------------------------------------------|
+| Script started:           06/04/2018 22:15:27                               |
+| Script ended:             06/04/2018 22:15:46                               |
+| Script duration (h:m:s):  0:00:18                                           |
++-----------------------------------------------------------------------------+
+```
+
+# saver.log
+
+```
+06/04/2018 22:15:32 - WARNING - Authentication failure: unable to connect cisco_ios r5.a-corp.com:22
+Authentication failed.
+06/04/2018 22:15:46 - WARNING - Connection to device timed-out: cisco_ios 192.168.1.160:22
 ```
