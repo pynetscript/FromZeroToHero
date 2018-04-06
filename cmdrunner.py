@@ -6,7 +6,7 @@
 # Last modified date:   06/04/2018
 # Version:              v1.1
 #
-# Script use:           Tlnet into Cisco IOS devices and configure SSH.
+# Script use:           Telnet into Cisco IOS devices and configure SSH.
 #                       Note: Commands are send all at once (not one by one)
 #                             Supports both IPv4 and IPv6 addresses and FQDNs
 #                             Both Py2 and Py3 compatible
