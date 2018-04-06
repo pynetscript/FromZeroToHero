@@ -96,7 +96,7 @@ with open(sys.argv[1]) as dev_file:
     devices = json.load(dev_file)
 
 with open(sys.argv[2]) as cmd_file:
-commands = cmd_file.readlines()
+    commands = cmd_file.readlines()
 
 
 # Script start timestamp and formatting
