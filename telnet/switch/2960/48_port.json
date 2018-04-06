@@ -1,0 +1,7 @@
+[{"device_type":"cisco_ios_telnet","ip":"ACORP-HQ-EU-GR-ATH-IDF4-ASW4"},
+ {"device_type":"cisco_ios_telnet","ip":"ACORP-HQ-EU-GR-ATH-IDF5-ASW5"},
+ {"device_type":"cisco_ios_telnet","ip":"ACORP-HQ-EU-GR-ATH-IDF6-ASW6"},
+ {"device_type":"cisco_ios_telnet","ip":"ACORP-HQ-EU-GR-ATH-IDF7-ASW7"},
+ {"device_type":"cisco_ios_telnet","ip":"ACORP-HQ-EU-GR-ATH-IDF8-ASW8"},
+ {"device_type":"cisco_ios_telnet","ip":"ACORP-HQ-EU-GR-ATH-IDF8-ASW9"},
+ {"device_type":"cisco_ios_telnet","ip":"ACORP-HQ-EU-GR-ATH-IDF9-ASW10"}]
