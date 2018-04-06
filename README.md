@@ -1,75 +1,124 @@
+[![Build Status](https://travis-ci.org/pynetscript/FromZeroToHero.svg?branch=master)](https://travis-ci.org/pynetscript/FromZeroToHero)
+[![GitHub release](https://img.shields.io/badge/version-1.2-blue.svg)](https://github.com/pynetscript/FromZeroToHero)
+[![license](https://img.shields.io/github/license/pynetscript/FromZeroToHero.svg)](https://github.com/pynetscript/FromZeroToHero/blob/master/LICENSE)
+
 # FromZeroToHero
 
 ```
 Written by:           Aleks Lambreca
 Creation date:        09/09/2017
-Last modified date:   11/03/2018
+Last modified date:   06/04/2018
+Version:              v1.2
 
-Script use:           Telnet into cisco_ios_telnet_devices.json and configure SSH.
-                      Disable telnet (optional).
+Script use:           Telnet into Cisco IOS devices and configure SSH.
+                      Note: Supports both IPv4 and IPv6 addresses and FQDNs
+                            Both Py2 and Py3 compatible
+                      The script needs 2 arguments to work:
+                      - 1st argument: cmdrunner.py
+                      - 2nd argument: /x.json
+                      Valid command looks like:
+                      ./cmdrunner.py telnet/router/7200.json
 
-Script input:         Username/Password
+Script input:         SSH Username/Password
+                      Specify devices as a .json file
+                      Note: See "telnet/router/7200.json" as an example
+                      Prompt: "Enter domain name (example.com):"
+                      Prompt: "Enter SSH key size (1024, 2048, 4096):"
+                      Prompt: "Disable telnet (yes/no)?"
 
 Script output:        Cisco IOS command output
                       Statistics
-                      Errors in fromzerotohero.log
+                      Erros in cmdrunner.log
+                      Travis CI build notification to Slack private channel
 ```
-
-# Disclaimer
-
-This isn't the best python script out there :)  
 
 # Prerequisites
 
-1. Box with [netmiko](https://github.com/ktbyers/netmiko) installed.  
-2. Telnet (TCP/23) reachability to devices.    
-3. Local username with privilege 15 (example: `user a.lambreca priv 15 secret cisco`).  
+0. Box with latest version of [git](https://git-scm.com/) installed.
+1. Box with [netmiko 2.1.0](https://github.com/ktbyers/netmiko) installed (included in requirements.txt).
+2. Box with [colorama 0.3.9](https://pypi.python.org/pypi/colorama) installed (included in requirements.txt).
+3. Telnet (TCP/23) reachability to devices.    
+4. Local username with privilege 15 (example: `user a.lambreca priv 15 secret cisco`).
+5. Alias command to save configuration: `alias exec wr copy run start`
+
+# Installation
+
+```
+mkdir /FromZeroToHero/ && cd /FromZeroToHero/
+sudo apt-get install -y git
+git clone -b https://github.com/pynetscript/FromZeroToHero.git . 
+pip install -r requirements.txt
+```
+
+# .travis.yml
+
+- [Travis CI](https://travis-ci.org/pynetscript/FromZeroToHero)
+- What language: **Python**
+- What versions: **2.7** , **3.4** , **3.5** , **3.6**
+- What to install: **pip install -r requirements.txt**
+- What to run: **python cmdrunner.py**
+- Where to send notifications: **pynetscript:3GF5L6jlBvYl9TA5mrcJ87rq** 
+  - Install Travis CI on [Slack](https://pynetscript.slack.com) and at some point it will output a slack channel to use.
+  - Replace **pynetscript:3GF5L6jlBvYl9TA5mrcJ87rq** with your own channel.
+  - Supports private channels.
+
 
 # tools.py
 
-- Colorama (optional).  
 
-```Cython
-sudo pip install colorama
-sudo pip3 install colorama
-```
+- tools.py is going to be imported on our main script (cmdrunner.py).
+- This way we have a cleaner main script.
+- Function (get_input)
+    - Get input that is both Py2 and Py3 compatible
+- Function (get_credentials) 
+    - Prompts for username
+    - Prompts for password twice but doesn't show it on screen (getpass)
+        - If passwords match each other the script will continue to run
+        - If password don't match each other you will get an error message `>> Passwords do not match. Try again. ` but the script will continue to run. Use Ctrl + C to cancel the script and run it again.
 
-- Getpass function asks for password but hides the input.  
-- Custom function (get_input) to get input that is compatible with both Python 2 and 3.  
-- Custom function (get_credentials) that prompts for, and returns a username and password (password is asked twice, and if they don't match you get an error message `>> Passwords do not match. Try again. `. The script though will continue to run, but you should use Ctrl + C to cancel the script and try again.  
-- tools.py is going to be imported on our main script (telnet-cmdrunner.py). This way we have a cleaner script to work with.  
 
-# cisco_ios_telnet_devices.json
+# 2nd argument (.json)
 
 Create an csv file like this example:  
 
 ```CSV
 device_type,ip
-cisco_ios_telnet,192.168.1.150
+cisco_ios_telnet,r1.a-corp.com
 cisco_ios_telnet,192.168.1.160
-cisco_ios_telnet,192.168.1.170
+cisco_ios_telnet,2001:db8:acab:a001::170
 ```
 
-Copy paste everything from the csv file to [Mr. Data Converter](https://shancarter.github.io/mr-data-converter/#).  
-From the bottom, choose **Output as JSON - Properties**.  
-From the left, choose **Delimiter Comma** and **Decimal Sign Commad**.  
-This is what you should get from the example above.  
+- Go to [Mr. Data Converter](https://shancarter.github.io/mr-data-converter/).
+- Copy/paste the CSV input into the **Input CSV or tab-delimited data**.
+- On the bottom, in the **Output as** choose  **JSON - Properties**.
+- On the left, in the **Delimiter** and in the **Decimal Sign** choose **Comma**.
+- This is what you should get from the example above.
 
 ```
-[{"device_type":"cisco_ios_telnet","ip":"192.168.1.150"},
+[{"device_type":"cisco_ios_telnet","ip":"r1.a-corp.com"},
 {"device_type":"cisco_ios_telnet","ip":"192.168.1.160"},
-{"device_type":"cisco_ios_telnet","ip":"192.168.1.170"}]
+{"device_type":"cisco_ios_telnet","ip":"2001:db8:acab:a001::170"}]
 ```
 
-Then i copy/pasted the output into cisco_ios_telnet_devices.json which is going to be used on our main script.
+- Finally i copy/pasted the output into telnet/router/7200.json which is going to be used by cmdrunner.py as the <2nd_argument>.   
 
-# telnet-cmdrunner.py
+
+# 1st argument (cmdrunner.py)
 
 This is the main script that we will run.   
+Legal examples:   
+- `python2 <1st_argument> <2nd_argument>`
+- `python3 <1st_argument> <2nd_argument>`
 
-First the script will:  
+Let's use the following example to explain the script:    
+- `python3 cmdrunner.py telnet/router/7200.json`
+
+First the script will:     
+- Create a log file named "cmdrunner.log".
 - Prompt us for a username and a password (password required twice).
-- Print date & time the script started.
+- Prompt us for the domain name.
+- Prompt us for the SSH key size.
+- Prompt us to disable telnet or not.
 
 ```
 ===============================================================================
@@ -77,49 +126,69 @@ Username: a.lambreca
 Password: 
 Retype password: 
 ===============================================================================
-Script started:       2018-03-11 16:42:07.337380
+Enter domain name (example.com): a-corp.com
+Enter SSH key size (1024, 2048, 4096): 2048
+Disable telnet (yes/no)? yes
 ===============================================================================
 ```
   
-Then the script will:    
-- Connect to the first device in **cisco_ios_telnet_devices.json**.    
-- Run the commands in `domain_name`.  
-- Run the commands in `crypto_key_gen`.   
-- Run the commands in `ssh_commands`.   
-- Clean and disconnect the session.
-- Connect to the first device in **cisco_ios_telnet_devices.json**.    
-- Run the commands in `disable_telnet`.  
-- Save the running-config to startup-config.  
-- Clean and disconnect the session.
+Then the script will:   
+- Timestamp the date & time the script started in D/M/Y H:M:S format. 
+- Telnet to the first device in the <2nd_argument> (.json).
+- Run the domain name command that it prompted us earlier. 
+- Generate SSH keys    
+  - I added a delay factor on this command because it takes a while to generate the SSH keys.  
+- Run the commands to disable telnet.   
+- Disconnect the SSH session.  
+
+**Note**: The script doesn't save the running-config to the startup-config. To save it, run **saver.py**.
+
+Errors:
+- If the is an authentication error we will get an error message `R1.a-corp.com >> Authentication error`
+- If the is an connectivity (TCP/22) error we will get an error message `192.168.1.120 >> TCP/22 connectivity error`
+- Errors are logged in the cmdrunner.log
 
 Finally the script will:
-- Repeat the process for all devices in **cisco_ios_telnet_devices.json**.  
+- Repeat the process for all devices in <2nd_argument> (.json) 
+- Timestamp the date & time the script ended in D/M/Y H:M:S format.
+- Subtract start timestamp and end timstamp to get the time (in H:M:S format) of how long the script took to run.
+- Print SCRIPT STATISTICS
 
-I added a delay factor on the `crypto key generate rsa label SSH mod 2048` command because it takes a while to generate the SSH keys.  
-
-# Disable Telnet
-
-If you don't want to disable telnet access to the devices, comment line 111 up to line 129 in **telnet-cmdrunner.py**.  
+```
++-----------------------------------------------------------------------------+
+|                              SCRIPT STATISTICS                              |
+|-----------------------------------------------------------------------------|
+| Script started:           06/04/2018 21:38:46                               |
+| Script ended:             06/04/2018 21:43:08                               |
+| Script duration (h:m:s):  0:04:21                                           |
++-----------------------------------------------------------------------------+
+```
   
 # Successful demo  
 
-```Cython
-aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py 
+```
+aleks@acorp:~/FromZeroToHero$ python3 cmdrunner.py telnet/router/7200.json
 ===============================================================================
 Username: a.lambreca
 Password: 
 Retype password: 
 ===============================================================================
-Script started:       2018-03-11 16:42:07.337380
+Enter domain name (example.com): a-corp.com
+Enter SSH key size (1024, 2048, 4096): 2048
+Disable telnet (yes/no)? yes
 ===============================================================================
-Connecting to device: 192.168.1.150
+Connecting to device: r5.a-corp.com
 -------------------------------------------------------------------------------
+[R5] [r5.a-corp.com] >> ip domain-name a-corp.com
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#ip domain-name a-corp.com
 R5(config)#end
 R5#
 -------------------------------------------------------------------------------
+[R5] [r5.a-corp.com] >> crypto key generate rsa label SSH mod 2048
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#crypto key generate rsa label SSH mod 2048
@@ -128,41 +197,33 @@ R5(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 26 seconds)
+[OK] (elapsed time was 13 seconds)
 
 R5(config)#end
 R5#
 -------------------------------------------------------------------------------
-config term
-Enter configuration commands, one per line.  End with CNTL/Z.
-R5(config)#ip ssh rsa keypair-name SSH
-R5(config)#ip ssh version 2
-R5(config)#line vty 0 4
-R5(config-line)#transport input ssh telnet
-R5(config-line)#end
-R5#
-===============================================================================
-Connecting to device: 192.168.1.150
--------------------------------------------------------------------------------
+[R5] [r5.a-corp.com] >> line vty 0 4
+[R5] [r5.a-corp.com] >> transport input ssh
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#line vty 0 4
 R5(config-line)#transport input ssh
 R5(config-line)#end
 R5#
--------------------------------------------------------------------------------
-Warning: Attempting to overwrite an NVRAM configuration previously written
-by a different version of the system image.
-Overwrite the previous NVRAM configuration?[confirm]
 ===============================================================================
 Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
+[R6] [192.168.1.160] >> ip domain-name a-corp.com
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R6(config)#ip domain-name a-corp.com
 R6(config)#end
 R6#
 -------------------------------------------------------------------------------
+[R6] [192.168.1.160] >> crypto key generate rsa label SSH mod 2048
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R6(config)#crypto key generate rsa label SSH mod 2048
@@ -171,82 +232,59 @@ R6(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 18 seconds)
+[OK] (elapsed time was 11 seconds)
 
 R6(config)#end
 R6#
 -------------------------------------------------------------------------------
-config term
-Enter configuration commands, one per line.  End with CNTL/Z.
-R6(config)#ip ssh rsa keypair-name SSH
-R6(config)#ip ssh version 2
-R6(config)#line vty 0 4
-R6(config-line)#transport input ssh telnet
-R6(config-line)#end
-R6#
-===============================================================================
-Connecting to device: 192.168.1.160
--------------------------------------------------------------------------------
+[R6] [192.168.1.160] >> line vty 0 4
+[R6] [192.168.1.160] >> transport input ssh
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R6(config)#line vty 0 4
 R6(config-line)#transport input ssh
 R6(config-line)#end
 R6#
--------------------------------------------------------------------------------
-Warning: Attempting to overwrite an NVRAM configuration previously written
-by a different version of the system image.
-Overwrite the previous NVRAM configuration?[confirm]
 ===============================================================================
-Connecting to device: 192.168.1.170
+Connecting to device: 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
+[R7] [2001:db8:acab:a001::170] >> ip domain-name a-corp.com
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#ip domain-name a-corp.com
 R7(config)#end
 R7#
 -------------------------------------------------------------------------------
+[R7] [2001:db8:acab:a001::170] >> crypto key generate rsa label SSH mod 2048
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#crypto key generate rsa label SSH mod 2048
-% You already have RSA keys defined named SSH.
-% They will be replaced.
+The name for the keys will be: SSH
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 9 seconds)
+-------------------------------------------------------------------------------
+[R7] [2001:db8:acab:a001::170] >> line vty 0 4
+[R7] [2001:db8:acab:a001::170] >> transport input ssh
 
-R7(config)#end
-R7#
--------------------------------------------------------------------------------
-config term
-Enter configuration commands, one per line.  End with CNTL/Z.
-R7(config)#ip ssh rsa keypair-name SSH
-R7(config)#ip ssh version 2
-R7(config)#line vty 0 4
-R7(config-line)#transport input ssh telnet
-R7(config-line)#end
-R7#
-===============================================================================
-Connecting to device: 192.168.1.170
--------------------------------------------------------------------------------
-config term
-Enter configuration commands, one per line.  End with CNTL/Z.
-R7(config)#line vty 0 4
+
+[OK] (elapsed time was 40 seconds)
+
+R7(config)#
+line vty 0 4
 R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
--------------------------------------------------------------------------------
-Warning: Attempting to overwrite an NVRAM configuration previously written
-by a different version of the system image.
-Overwrite the previous NVRAM configuration?[confirm]
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           2018-03-11 16:42:07.337380                        |
-| Script ended:             2018-03-11 16:48:23.320913                        |
-| Script duration (h/m/s):  0:06:15.983533                                    |
+| Script started:           06/04/2018 21:38:46                               |
+| Script ended:             06/04/2018 21:43:08                               |
+| Script duration (h:m:s):  0:04:21                                           |
 +-----------------------------------------------------------------------------+
 ```
 
@@ -256,31 +294,37 @@ Overwrite the previous NVRAM configuration?[confirm]
 - R6: I have no Telnet (TCP/23) reachability.
 - R7: This router is configured correctly.
 
-```Cython
-aleks@acorp:~/FromZeroToHero$ ./telnet-cmdrunner.py
+```
+aleks@acorp:~/FromZeroToHero$ python3 cmdrunner.py telnet/router/7200.json
 ===============================================================================
 Username: a.lambreca
 Password: 
 Retype password: 
 ===============================================================================
-Script started:       2018-03-11 17:09:13.531507
+Enter domain name (example.com): a-corp.com
+Enter SSH key size (1024, 2048, 4096): 2048
+Disable telnet (yes/no)? yes
 ===============================================================================
-Connecting to device: 192.168.1.150
+Connecting to device: r5.a-corp.com
 -------------------------------------------------------------------------------
-192.168.1.150 >> Authentication error
+r5.a-corp.com >> Authentication error
 ===============================================================================
 Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
-192.168.1.160 >> TCP/22 connectivity error
+192.168.1.160 >> TCP/23 connectivity error
 ===============================================================================
-Connecting to device: 192.168.1.170
+Connecting to device: 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
+[R7] [2001:db8:acab:a001::170] >> ip domain-name a-corp.com
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#ip domain-name a-corp.com
 R7(config)#end
 R7#
 -------------------------------------------------------------------------------
+[R7] [2001:db8:acab:a001::170] >> crypto key generate rsa label SSH mod 2048
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#crypto key generate rsa label SSH mod 2048
@@ -289,44 +333,33 @@ R7(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 8 seconds)
+[OK] (elapsed time was 17 seconds)
 
 R7(config)#end
 R7#
 -------------------------------------------------------------------------------
-config term
-Enter configuration commands, one per line.  End with CNTL/Z.
-R7(config)#ip ssh rsa keypair-name SSH
-R7(config)#ip ssh version 2
-R7(config)#line vty 0 4
-R7(config-line)#transport input ssh telnet
-R7(config-line)#end
-R7#
-===============================================================================
-Connecting to device: 192.168.1.170
--------------------------------------------------------------------------------
+[R7] [2001:db8:acab:a001::170] >> line vty 0 4
+[R7] [2001:db8:acab:a001::170] >> transport input ssh
+
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#line vty 0 4
 R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
--------------------------------------------------------------------------------
-Building configuration...
-[OK]
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           2018-03-11 17:09:13.531507                        |
-| Script ended:             2018-03-11 17:11:31.171253                        |
-| Script duration (h/m/s):  0:02:17.639746                                    |
+| Script started:           06/04/2018 21:49:25                               |
+| Script ended:             06/04/2018 21:51:14                               |
+| Script duration (h:m:s):  0:01:48                                           |
 +-----------------------------------------------------------------------------+
 ```
 
-# fromzerotohero.log
+# cmdrunner.log
 
 ```
-2018-03-11 17:09:20,923 WARNING Telnet login failed: 192.168.1.150
-2018-03-11 17:09:23,923 WARNING [Errno 113] No route to host
+06/04/2018 21:49:39 - WARNING - Telnet login failed: r5.a-corp.com
+06/04/2018 21:49:42 - WARNING - [Errno 113] No route to host
 ```
