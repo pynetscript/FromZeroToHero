@@ -1,10 +1,14 @@
-from __future__ import absolute_import, division, print_function
-from colorama import init, Fore, Style
-### Getpass function asks for password but doesn't show it in screen.
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+from colorama import init
+from colorama import Fore
+from colorama import Style
 from getpass import getpass
 
 
-### Custom function to get input that is compatible with Py2 & 3.
+# Function - Get input that is Py2/Py3 compatible.
 def get_input(prompt=''):
     try:
         line = raw_input(prompt)
@@ -13,7 +17,7 @@ def get_input(prompt=''):
     return line
 
 
-### Prompts for, and returns a username and password.
+# Function - Prompts for, and returns a username and password.
 def get_credentials():
     print(Fore.WHITE + '='*79 + Style.RESET_ALL)
     username = get_input('Username: ')
@@ -22,7 +26,6 @@ def get_credentials():
         password = getpass()
         password_verify = getpass('Retype password: ')
         if password != password_verify:
-            print(Fore.RED+'>> Passwords do not match. Try again.'
-            + Style.RESET_ALL)
+            print(Fore.RED+'>> Passwords do not match. Try again.' + Style.RESET_ALL)
             password = None
-        return username, password
+return username, password
