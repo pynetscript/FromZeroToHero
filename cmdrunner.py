@@ -72,9 +72,6 @@ netmiko_ex_time = (netmiko.ssh_exception.NetMikoTimeoutException, socket.error)
 netmiko_ex_auth = (netmiko.ssh_exception.NetMikoAuthenticationException)
 
 
-username, password = tools.get_credentials()
-
-
 # If less than 2 arguments we get an error.
 # If more than 2 arguments we get an error.
 if len(sys.argv) != 2:
@@ -84,6 +81,10 @@ if len(sys.argv) != 2:
 
 with open(sys.argv[1]) as dev_file:
     devices = json.load(dev_file)
+
+    
+# Prompt for username and password
+username, password = tools.get_credentials()
 
 
 # Prompt for domain name
