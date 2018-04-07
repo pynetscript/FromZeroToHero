@@ -72,8 +72,7 @@ netmiko_ex_time = (netmiko.ssh_exception.NetMikoTimeoutException, socket.error)
 netmiko_ex_auth = (netmiko.ssh_exception.NetMikoAuthenticationException)
 
 
-# If less than 2 arguments we get an error.
-# If more than 2 arguments we get an error.
+# If arguments not equal to 2 we get an error.
 if len(sys.argv) != 2:
     print('>> Usage: cmdrunner.py /x.json')
     exit()
