@@ -143,7 +143,7 @@ Then the script will:
 
 Errors:
 - If the is an authentication error we will get an error message `r5.a-corp.com >> Authentication error`
-- If the is an connectivity (TCP/22) error we will get an error message `192.168.1.160 >> TCP/22 connectivity error`
+- If the is an connectivity (TCP/23) error we will get an error message `192.168.1.160 >> TCP/23 connectivity error`
 - Errors are logged in the cmdrunner.log
 
 Finally the script will:
