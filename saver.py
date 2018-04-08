@@ -51,7 +51,7 @@ from multiprocessing import Process, Queue
 import tools
 
 
-# Logs on the working directory on the file named fromzerotohero.log
+# Logs on the working directory on the file named saver.log
 logger = logging.getLogger('__name__')
 hdlr = logging.FileHandler('saver.log')
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
@@ -70,11 +70,7 @@ netmiko_ex_time = (netmiko.ssh_exception.NetMikoTimeoutException, socket.error)
 netmiko_ex_auth = (netmiko.ssh_exception.NetMikoAuthenticationException)
 
 
-username, password = tools.get_credentials()
-
-
-# If less than 2 arguments we get an error.
-# If more than 2 arguments we get an error.
+# If arguments not equal to 2 we get an error.
 if len(sys.argv) != 2:
     print('>> Usage: cmdrunner.py /x.json')
     exit()
@@ -82,6 +78,10 @@ if len(sys.argv) != 2:
 
 with open(sys.argv[1]) as dev_file:
     devices = json.load(dev_file)
+
+    
+# Prompt for username and password
+username, password = tools.get_credentials()
 
 
 def processor(device, output_q):
@@ -143,7 +143,7 @@ def main():
     start_timestamp = datetime.datetime.now()
     start_time = start_timestamp.strftime('%d/%m/%Y %H:%M:%S')
     
-    # Queue used in line 136.
+    # Queue used in line 121.
     output_q = Queue(maxsize=40)
 
     # Use processes and run the "processor" function. 
