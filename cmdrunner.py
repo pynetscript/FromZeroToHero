@@ -53,7 +53,7 @@ import os
 import tools
 
 
-# Logs on the working directory on the file named fromzerotohero.log
+# Logs on the working directory on the file named cmdrunner.log
 logger = logging.getLogger('__name__')
 hdlr = logging.FileHandler('cmdrunner.log')
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
