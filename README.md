@@ -37,12 +37,9 @@ Script output:        Cisco IOS command output
 
 # Prerequisites
 
-0. Box with latest version of [git](https://git-scm.com/) installed.
-1. Box with [netmiko 2.1.0](https://github.com/ktbyers/netmiko) installed (included in requirements.txt).
-2. Box with [colorama 0.3.9](https://pypi.python.org/pypi/colorama) installed (included in requirements.txt).
-3. Telnet (TCP/23) reachability to devices.    
-4. Local username with privilege 15 (example: `user a.lambreca priv 15 secret cisco`).
-5. Alias command to save configuration: `alias exec wr copy run start`
+- Telnet (TCP/23) reachability to devices.    
+- Local username with privilege 15 (example: `user a.lambreca priv 15 secret cisco`).
+- Alias command to save configuration: `alias exec wr copy run start`
 
 # Installation
 
