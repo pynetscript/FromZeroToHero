@@ -3,7 +3,7 @@
 ###############################################################################
 # Written by:           Aleks Lambreca
 # Creation date:        09/09/2017
-# Last modified date:   06/04/2018
+# Last modified date:   14/04/2018
 # Version:              v1.2
 #
 # Script use:           Telnet into Cisco IOS devices and configure SSH.
@@ -23,8 +23,10 @@
 #                       Prompt: "Disable telnet (yes/no)?"
 #
 # Script output:        Cisco IOS command output
+#                       Errors in screen
+#                       Progress bar
 #                       Statistics
-#                       Erros in cmdrunner.log
+#                       Log erros in cmdrunner.log
 #                       Travis CI build notification to Slack private channel
 ###############################################################################
 
