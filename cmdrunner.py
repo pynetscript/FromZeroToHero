@@ -38,7 +38,7 @@ from __future__ import unicode_literals
 from colorama import init
 from colorama import Fore
 from colorama import Style
-
+from progressbar import *
 
 # Standard library modules
 import netmiko
@@ -115,7 +115,15 @@ start_timestamp = datetime.datetime.now()
 start_time = start_timestamp.strftime('%d/%m/%Y %H:%M:%S')
 
 
-for device in devices:
+# Progress Bar
+widgets = [' '*34, '\n',
+           Percentage(), ' ', Bar(marker='#', left='[', right=']'),
+           ' ', '[',SimpleProgress(),']',' ' '[', ETA(),']', '\n']
+
+pbar = ProgressBar(widgets=widgets)
+
+
+for device in pbar(devices):
     device['username'] = username
     device['password'] = password
     try:
