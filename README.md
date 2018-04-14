@@ -119,6 +119,7 @@ First the script will:
 - Prompt us for the domain name.
 - Prompt us for the SSH key size.
 - Prompt us to disable telnet or not.
+- Show progress bar
 
 ```
 ===============================================================================
@@ -129,6 +130,8 @@ Retype password:
 Enter domain name (example.com): a-corp.com
 Enter SSH key size (1024, 2048, 4096): 2048
 Disable telnet (yes/no)? yes
+                                                                                                                   
+N/A% [                                              ] [0 of 3] [ETA:  --:--:--]
 ===============================================================================
 ```
   
@@ -139,7 +142,8 @@ Then the script will:
 - Generate SSH keys    
   - I added a delay factor on this command because it takes a while to generate the SSH keys.  
 - Run the commands to disable telnet.   
-- Disconnect the SSH session.  
+- Disconnect the SSH session.
+- Show progress bar
 
 Errors:
 - If the is an authentication error we will get an error message `r5.a-corp.com >> Authentication error`
@@ -152,15 +156,17 @@ Finally the script will:
 - Subtract start timestamp and end timstamp to get the time (in H:M:S format) of how long the script took to run.
 - Print SCRIPT STATISTICS
 
-**Note**: The script doesn't save the running-config to the startup-config. To save it, run **saver.py**.
+**Note**
+- The script doesn't save the running-config to the startup-config. To save it, run **saver.py**.
+- A demo is shown at the bottom.
 
 ```
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           06/04/2018 21:38:46                               |
-| Script ended:             06/04/2018 21:43:08                               |
-| Script duration (h:m:s):  0:04:21                                           |
+| Script started:           14/04/2018 21:38:14                               |
+| Script ended:             14/04/2018 21:42:50                               |
+| Script duration (h:m:s):  0:04:36                                           |
 +-----------------------------------------------------------------------------+
 ```
 
@@ -230,6 +236,8 @@ Retype password:
 Enter domain name (example.com): a-corp.com
 Enter SSH key size (1024, 2048, 4096): 2048
 Disable telnet (yes/no)? yes
+                                                                                                                   
+N/A% [                                              ] [0 of 3] [ETA:  --:--:--]
 ===============================================================================
 Connecting to device: r5.a-corp.com
 -------------------------------------------------------------------------------
@@ -246,12 +254,11 @@ R5#
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#crypto key generate rsa label SSH mod 2048
-% You already have RSA keys defined named SSH.
-% They will be replaced.
+The name for the keys will be: SSH
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 13 seconds)
+[OK] (elapsed time was 15 seconds)
 
 R5(config)#end
 R5#
@@ -265,6 +272,8 @@ R5(config)#line vty 0 4
 R5(config-line)#transport input ssh
 R5(config-line)#end
 R5#
+                                                                                                                   
+ 33% [###############                               ] [1 of 3] [ETA:   0:03:04]
 ===============================================================================
 Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
@@ -286,7 +295,7 @@ R6(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 11 seconds)
+[OK] (elapsed time was 25 seconds)
 
 R6(config)#end
 R6#
@@ -300,6 +309,8 @@ R6(config)#line vty 0 4
 R6(config-line)#transport input ssh
 R6(config-line)#end
 R6#
+                                                                                                                   
+ 66% [##############################                ] [2 of 3] [ETA:   0:01:32]
 ===============================================================================
 Connecting to device: 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
@@ -320,25 +331,30 @@ The name for the keys will be: SSH
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
+[OK] (elapsed time was 8 seconds)
+
+R7(config)#end
+R7#
 -------------------------------------------------------------------------------
 [R7] [2001:db8:acab:a001::170] >> line vty 0 4
 [R7] [2001:db8:acab:a001::170] >> transport input ssh
 
-
-[OK] (elapsed time was 40 seconds)
-
-R7(config)#
-line vty 0 4
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+R7(config)#line vty 0 4
 R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
+                                                                                                                   
+100% [##############################################] [3 of 3] [Time:  0:04:36]
+
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           06/04/2018 21:38:46                               |
-| Script ended:             06/04/2018 21:43:08                               |
-| Script duration (h:m:s):  0:04:21                                           |
+| Script started:           14/04/2018 21:38:14                               |
+| Script ended:             14/04/2018 21:42:50                               |
+| Script duration (h:m:s):  0:04:36                                           |
 +-----------------------------------------------------------------------------+
 ```
 
@@ -358,14 +374,20 @@ Retype password:
 Enter domain name (example.com): a-corp.com
 Enter SSH key size (1024, 2048, 4096): 2048
 Disable telnet (yes/no)? yes
+                                                                                                                   
+N/A% [                                              ] [0 of 3] [ETA:  --:--:--]
 ===============================================================================
 Connecting to device: r5.a-corp.com
 -------------------------------------------------------------------------------
 r5.a-corp.com >> Authentication error
+                                                                                                                   
+ 33% [###############                               ] [1 of 3] [ETA:   0:00:26]
 ===============================================================================
 Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
 192.168.1.160 >> TCP/23 connectivity error
+                                                                                                                   
+ 66% [##############################                ] [2 of 3] [ETA:   0:00:15]
 ===============================================================================
 Connecting to device: 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
@@ -387,7 +409,7 @@ R7(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 17 seconds)
+[OK] (elapsed time was 3 seconds)
 
 R7(config)#end
 R7#
@@ -401,21 +423,24 @@ R7(config)#line vty 0 4
 R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
+                                                                                                                   
+100% [##############################################] [3 of 3] [Time:  0:01:42]
+
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           06/04/2018 21:49:25                               |
-| Script ended:             06/04/2018 21:51:14                               |
-| Script duration (h:m:s):  0:01:48                                           |
+| Script started:           14/04/2018 21:44:45                               |
+| Script ended:             14/04/2018 21:46:27                               |
+| Script duration (h:m:s):  0:01:42                                           |
 +-----------------------------------------------------------------------------+
 ```
 
 # cmdrunner.log
 
 ```
-06/04/2018 21:49:39 - WARNING - Telnet login failed: r5.a-corp.com
-06/04/2018 21:49:42 - WARNING - [Errno 113] No route to host
+14/04/2018 21:44:58 - WARNING - Telnet login failed: r5.a-corp.com
+14/04/2018 21:45:16 - WARNING - [Errno 113] No route to host
 ```
 
 
