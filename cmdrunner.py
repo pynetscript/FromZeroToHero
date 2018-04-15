@@ -142,15 +142,15 @@ for device in pbar(devices):
 
         # Get device's "hostname" from netmiko, and "ip" from .json
         hostname = connection.base_prompt
-        json_ip = (device['ip'])
+        ip = (device['ip'])
 
         # Configure domain-name.
-        print('[{0}] [{1}] >> {2}'.format(hostname, json_ip, domain_name) + '\n')
+        print('[{0}] [{1}] >> {2}'.format(hostname, ip, domain_name) + '\n')
         print(connection.send_config_set(domain_name))
         print('-'*79)
 
         # Generate SSH keys (add some delay).
-        print('[{0}] [{1}] >> {2}'.format(hostname, json_ip, keygen) + '\n')   
+        print('[{0}] [{1}] >> {2}'.format(hostname, ip, keygen) + '\n')   
         print(connection.send_config_set(keygen, delay_factor=10))
         print('-'*79)
 
@@ -160,7 +160,7 @@ for device in pbar(devices):
             pass
         else:
             for cmd in disable_telnet:
-                print('[{0}] [{1}] >> '.format(hostname, json_ip) + cmd)
+                print('[{0}] [{1}] >> '.format(hostname, ip) + cmd)
             print()
             print(connection.send_config_set(disable_telnet))
         
