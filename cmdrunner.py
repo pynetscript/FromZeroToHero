@@ -131,10 +131,14 @@ for device in pbar(devices):
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
         print(current_time, '- Connecting to device:', device['ip'])
-        print('-'*79)
 
         # SSH into each device from "x.json" (2nd argument).
         connection = netmiko.ConnectHandler(**device)
+
+        current_timestamp = datetime.datetime.now()
+        current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
+        print(current_time, '- Successfully connected -', device['ip'])
+        print('-'*79)
 
         # Get device's "hostname" from netmiko, and "ip" from .json
         hostname = connection.base_prompt
@@ -165,12 +169,16 @@ for device in pbar(devices):
 
 
     except netmiko_ex_auth as ex_auth:
-        print(Fore.RED + device['ip'], '>> Authentication error' + Style.RESET_ALL)
+        current_timestamp = datetime.datetime.now()
+        current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
+        print(Fore.RED + current_time, '- Authentication error -', device['ip'] + Style.RESET_ALL)
         # Log the error on the working directory in cmdrunner.log
         logger.warning(ex_auth)
 
     except netmiko_ex_time as ex_time:
-        print(Fore.RED + device['ip'], '>> TCP/23 connectivity error' + Style.RESET_ALL)
+        current_timestamp = datetime.datetime.now()
+        current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
+        print(Fore.RED + current_time, '- TCP/22 connectivity error -', device['ip'] + Style.RESET_ALL)
         # Log the error on the working directory in cmdrunner.log
         logger.warning(ex_time)
 
