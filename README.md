@@ -7,7 +7,7 @@
 ```
 Written by:           Aleks Lambreca
 Creation date:        09/09/2017
-Last modified date:   14/04/2018
+Last modified date:   15/04/2018
 Version:              v1.2
 
 Script use:           Telnet into Cisco IOS devices and configure SSH.
@@ -130,14 +130,14 @@ Retype password:
 Enter domain name (example.com): a-corp.com
 Enter SSH key size (1024, 2048, 4096): 2048
 Disable telnet (yes/no)? yes
-                                                                                                                   
-N/A% [                                              ] [0 of 3] [ETA:  --:--:--]
+                                                                               
+N/A% [                                            ] [0 of 3] [ETA:  --:--:--]
 ===============================================================================
 ```
   
 Then the script will:   
 - Timestamp the date & time the script started in D/M/Y H:M:S format. 
-- Telnet to the first device in the <2nd_argument> (.json).
+- **Telnet** to the first device in the <2nd_argument> (.json).
 - Run the domain name command that it prompted us earlier. 
 - Generate SSH keys    
   - I added a delay factor on this command because it takes a while to generate the SSH keys.  
@@ -148,7 +148,7 @@ Then the script will:
 Errors:
 - If the is an authentication error we will get an error message `r5.a-corp.com >> Authentication error`
 - If the is an connectivity (TCP/23) error we will get an error message `192.168.1.160 >> TCP/23 connectivity error`
-- Errors are logged in the cmdrunner.log
+- Errors are logged in cmdrunner.log
 
 Finally the script will:
 - Repeat the process for all devices in <2nd_argument> (.json) 
@@ -157,22 +157,23 @@ Finally the script will:
 - Print SCRIPT STATISTICS
 
 **Note**
-- The script doesn't save the running-config to the startup-config. To save it, run **saver.py**.
-- A demo is shown at the bottom.
+- The script doesn't save the running-config to the startup-config. 
+- To save it, run **saver.py**.
 
 ```
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           14/04/2018 21:38:14                               |
-| Script ended:             14/04/2018 21:42:50                               |
+| Script started:           15/04/2018 13:07:56                               |
+| Script ended:             15/04/2018 13:12:32                               |
 | Script duration (h:m:s):  0:04:36                                           |
 +-----------------------------------------------------------------------------+
 ```
 
 # 1st argument (saver.py)
 
-This is the script that we will run to save the configuration.   
+This is the script that we will run to save the configuration.
+
 Legal examples:   
 - `python2 <1st_argument> <2nd_argument>`
 - `python3 <1st_argument> <2nd_argument>`
@@ -197,7 +198,7 @@ Then the script will:
   - Timestamp the date & time the script started in D/M/Y H:M:S format
   - Define a queue with size of 40
   - Use multiple processors and run the ` processor(device, output_q)` function: 
-    - SSH to all the devices at once in the <2nd_argument> (.json)    
+    - **SSH** to all the devices at once in the <2nd_argument> (.json)    
     - Get devices` hostname.
     - Get devices` "ip" from .json
     - Save the running-config to startup-config - put into variable "output". 
@@ -218,9 +219,9 @@ Then the script will:
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           06/04/2018 22:12:55                               |
-| Script ended:             06/04/2018 22:13:09                               |
-| Script duration (h:m:s):  0:00:13                                           |
+| Script started:           15/04/2018 13:59:36                               |
+| Script ended:             15/04/2018 13:59:49                               |
+| Script duration (h:m:s):  0:00:12                                           |
 +-----------------------------------------------------------------------------+
 ```
   
@@ -236,10 +237,10 @@ Retype password:
 Enter domain name (example.com): a-corp.com
 Enter SSH key size (1024, 2048, 4096): 2048
 Disable telnet (yes/no)? yes
-                                                                                                                   
-N/A% [                                              ] [0 of 3] [ETA:  --:--:--]
+                                                                               
+N/A% [                                            ] [0 of 3] [ETA:  --:--:--]
 ===============================================================================
-Connecting to device: r5.a-corp.com
+15/04/2018 13:07:56 - Connecting to device: r5.a-corp.com
 -------------------------------------------------------------------------------
 [R5] [r5.a-corp.com] >> ip domain-name a-corp.com
 
@@ -254,11 +255,12 @@ R5#
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R5(config)#crypto key generate rsa label SSH mod 2048
-The name for the keys will be: SSH
+% You already have RSA keys defined named SSH.
+% They will be replaced.
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 15 seconds)
+[OK] (elapsed time was 18 seconds)
 
 R5(config)#end
 R5#
@@ -272,10 +274,10 @@ R5(config)#line vty 0 4
 R5(config-line)#transport input ssh
 R5(config-line)#end
 R5#
-                                                                                                                   
- 33% [###############                               ] [1 of 3] [ETA:   0:03:04]
+                                                                               
+ 33% [##############                              ] [1 of 3] [ETA:   0:03:04]
 ===============================================================================
-Connecting to device: 192.168.1.160
+15/04/2018 13:09:28 - Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
 [R6] [192.168.1.160] >> ip domain-name a-corp.com
 
@@ -295,7 +297,7 @@ R6(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 25 seconds)
+[OK] (elapsed time was 20 seconds)
 
 R6(config)#end
 R6#
@@ -309,10 +311,10 @@ R6(config)#line vty 0 4
 R6(config-line)#transport input ssh
 R6(config-line)#end
 R6#
-                                                                                                                   
- 66% [##############################                ] [2 of 3] [ETA:   0:01:32]
+                                                                               
+ 66% [#############################               ] [2 of 3] [ETA:   0:01:32]
 ===============================================================================
-Connecting to device: 2001:db8:acab:a001::170
+15/04/2018 13:11:00 - Connecting to device: 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
 [R7] [2001:db8:acab:a001::170] >> ip domain-name a-corp.com
 
@@ -327,11 +329,12 @@ R7#
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
 R7(config)#crypto key generate rsa label SSH mod 2048
-The name for the keys will be: SSH
+% You already have RSA keys defined named SSH.
+% They will be replaced.
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 8 seconds)
+[OK] (elapsed time was 10 seconds)
 
 R7(config)#end
 R7#
@@ -345,15 +348,15 @@ R7(config)#line vty 0 4
 R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
-                                                                                                                   
-100% [##############################################] [3 of 3] [Time:  0:04:36]
+                                                                               
+100% [############################################] [3 of 3] [Time:  0:04:36]
 
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           14/04/2018 21:38:14                               |
-| Script ended:             14/04/2018 21:42:50                               |
+| Script started:           15/04/2018 13:07:56                               |
+| Script ended:             15/04/2018 13:12:32                               |
 | Script duration (h:m:s):  0:04:36                                           |
 +-----------------------------------------------------------------------------+
 ```
@@ -374,22 +377,22 @@ Retype password:
 Enter domain name (example.com): a-corp.com
 Enter SSH key size (1024, 2048, 4096): 2048
 Disable telnet (yes/no)? yes
-                                                                                                                   
-N/A% [                                              ] [0 of 3] [ETA:  --:--:--]
+                                                                               
+N/A% [                                            ] [0 of 3] [ETA:  --:--:--]
 ===============================================================================
-Connecting to device: r5.a-corp.com
+15/04/2018 13:14:56 - Connecting to device: r5.a-corp.com
 -------------------------------------------------------------------------------
 r5.a-corp.com >> Authentication error
-                                                                                                                   
- 33% [###############                               ] [1 of 3] [ETA:   0:00:26]
+                                                                               
+ 33% [##############                              ] [1 of 3] [ETA:   0:00:27]
 ===============================================================================
-Connecting to device: 192.168.1.160
+15/04/2018 13:15:10 - Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
 192.168.1.160 >> TCP/23 connectivity error
-                                                                                                                   
- 66% [##############################                ] [2 of 3] [ETA:   0:00:15]
+                                                                               
+ 66% [#############################               ] [2 of 3] [ETA:   0:00:08]
 ===============================================================================
-Connecting to device: 2001:db8:acab:a001::170
+15/04/2018 13:15:13 - Connecting to device: 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
 [R7] [2001:db8:acab:a001::170] >> ip domain-name a-corp.com
 
@@ -409,7 +412,7 @@ R7(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 3 seconds)
+[OK] (elapsed time was 9 seconds)
 
 R7(config)#end
 R7#
@@ -423,61 +426,62 @@ R7(config)#line vty 0 4
 R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
-                                                                                                                   
-100% [##############################################] [3 of 3] [Time:  0:01:42]
+                                                                               
+100% [############################################] [3 of 3] [Time:  0:01:48]
 
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           14/04/2018 21:44:45                               |
-| Script ended:             14/04/2018 21:46:27                               |
-| Script duration (h:m:s):  0:01:42                                           |
+| Script started:           15/04/2018 13:14:56                               |
+| Script ended:             15/04/2018 13:16:45                               |
+| Script duration (h:m:s):  0:01:49                                           |
 +-----------------------------------------------------------------------------+
 ```
 
 # cmdrunner.log
 
 ```
-14/04/2018 21:44:58 - WARNING - Telnet login failed: r5.a-corp.com
-14/04/2018 21:45:16 - WARNING - [Errno 113] No route to host
+15/04/2018 13:15:10 - WARNING - Telnet login failed: r5.a-corp.com
+15/04/2018 13:15:13 - WARNING - [Errno 113] No route to host
 ```
 
 
 # Successful demo (saver.py)
 
 ```
-aleks@acorp:~/FromZeroToHero$ ./saver.py ssh/router/7200.json 
+aleks@acorp:~/FromZeroToHero$ python3 saver.py ssh/router/7200.json
 ===============================================================================
 Username: a.lambreca
 Password: 
 Retype password: 
 ===============================================================================
-Connecting to device: r5.a-corp.com
+15/04/2018 13:21:42 - Connecting to device: r5.a-corp.com
 -------------------------------------------------------------------------------
 ===============================================================================
-Connecting to device: 192.168.1.160
+15/04/2018 13:21:42 - Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
 ===============================================================================
-Connecting to device: 2001:db8:acab:a001::170
+15/04/2018 13:21:42 - Connecting to device: 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
-[R6] [192.168.1.160]
+[R5] [r5.a-corp.com]
 
 >> write memory
 Building configuration...
-
+[OK]
 -------------------------------------------------------------------------------
 
 [R7] [2001:db8:acab:a001::170]
 
 >> write memory
 Building configuration...
-
+[OK]
 -------------------------------------------------------------------------------
 
-[R5] [r5.a-corp.com]
+[R6] [192.168.1.160]
 
 >> write memory
+
 Building configuration...
 [OK]
 -------------------------------------------------------------------------------
@@ -486,9 +490,9 @@ Building configuration...
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           06/04/2018 22:12:55                               |
-| Script ended:             06/04/2018 22:13:09                               |
-| Script duration (h:m:s):  0:00:13                                           |
+| Script started:           15/04/2018 13:21:42                               |
+| Script ended:             15/04/2018 13:22:01                               |
+| Script duration (h:m:s):  0:00:18                                           |
 +-----------------------------------------------------------------------------+
 ```
 
@@ -499,47 +503,47 @@ Building configuration...
 - R7: This router is configured correctly.
 
 ```
-aleks@acorp:~/FromZeroToHero$ ./saver.py ssh/router/7200.json 
+aleks@acorp:~/FromZeroToHero$ python3 saver.py ssh/router/7200.json
 ===============================================================================
 Username: a.lambreca
 Password: 
 Retype password: 
 ===============================================================================
-Connecting to device: r5.a-corp.com
+15/04/2018 13:59:37 - Connecting to device: r5.a-corp.com
 -------------------------------------------------------------------------------
 ===============================================================================
-Connecting to device: 192.168.1.160
+15/04/2018 13:59:37 - Connecting to device: 192.168.1.160
 -------------------------------------------------------------------------------
 ===============================================================================
-Connecting to device: 2001:db8:acab:a001::170
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-r5.a-corp.com >> Authentication error
+15/04/2018 13:59:37 - Connecting to device: 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 192.168.1.160 >> TCP/22 connectivity error
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+r5.a-corp.com >> Authentication error
 -------------------------------------------------------------------------------
 [R7] [2001:db8:acab:a001::170]
 
 >> write memory
 Building configuration...
-
+[OK]
 -------------------------------------------------------------------------------
 
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           06/04/2018 22:15:27                               |
-| Script ended:             06/04/2018 22:15:46                               |
-| Script duration (h:m:s):  0:00:18                                           |
+| Script started:           15/04/2018 13:59:36                               |
+| Script ended:             15/04/2018 13:59:49                               |
+| Script duration (h:m:s):  0:00:12                                           |
 +-----------------------------------------------------------------------------+
 ```
 
 # saver.log
 
 ```
-06/04/2018 22:15:32 - WARNING - Authentication failure: unable to connect cisco_ios r5.a-corp.com:22
+15/04/2018 13:59:40 - WARNING - Connection to device timed-out: cisco_ios 192.168.1.160:22
+15/04/2018 13:59:40 - WARNING - Authentication failure: unable to connect cisco_ios r5.a-corp.com:22
 Authentication failed.
-06/04/2018 22:15:46 - WARNING - Connection to device timed-out: cisco_ios 192.168.1.160:22
 ```
