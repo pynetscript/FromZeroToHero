@@ -74,7 +74,7 @@ pip install -r requirements.txt
     - Prompts for username
     - Prompts for password twice but doesn't show it on screen (getpass)
         - If passwords match each other the script will continue to run
-        - If password don't match each other you will get an error message `>> Passwords do not match. Try again. ` but the script will continue to run. Use Ctrl + C to cancel the script and run it again.
+        - If password don't match each other we will get an error message `>> Passwords do not match. Please try again. ` and the script will prompt us again until passwords match each other.
 
 
 # 2nd argument (.json)
