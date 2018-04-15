@@ -126,6 +126,7 @@ Username: a.lambreca
 Password: 
 Retype password: 
 ===============================================================================
+===============================================================================
 Enter domain name (example.com): a-corp.com
 Enter SSH key size (1024, 2048, 4096): 2048
 Disable telnet (yes/no)? yes
@@ -232,6 +233,7 @@ aleks@acorp:~/FromZeroToHero$ python3 cmdrunner.py telnet/router/7200.json
 Username: a.lambreca
 Password: 
 Retype password: 
+===============================================================================
 ===============================================================================
 Enter domain name (example.com): a-corp.com
 Enter SSH key size (1024, 2048, 4096): 2048
