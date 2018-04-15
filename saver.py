@@ -89,7 +89,6 @@ def processor(device, output_q):
     device['username'] = username
     device['password'] = password
     try:
-        print(Fore.WHITE + '='*79 + Style.RESET_ALL)
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
         print(current_time, '- Connecting to device:', device['ip'])
@@ -99,7 +98,7 @@ def processor(device, output_q):
         # SSH into each device from "x.json" (2nd argument).
         connection = netmiko.ConnectHandler(**device)
 
-        print(Fore.WHITE + '='*79 + Style.RESET_ALL)
+        print()
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
         print(current_time, '- Successfully connected -', device['ip'])
