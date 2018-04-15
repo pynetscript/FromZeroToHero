@@ -29,4 +29,5 @@ def get_credentials():
             print(Fore.RED+'>> Passwords do not match. Please try again.' + Style.RESET_ALL)
             password = None
             continue
+        print(Fore.WHITE + '='*79 + Style.RESET_ALL)
         return username, password
