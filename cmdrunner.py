@@ -116,7 +116,7 @@ start_time = start_timestamp.strftime('%d/%m/%Y %H:%M:%S')
 
 
 # Progress Bar
-widgets = [' '*29, '\n',
+widgets = ['\n',
            Percentage(), ' ', Bar(marker='#', left='[', right=']'),
            ' ', '[',SimpleProgress(),']',' ' '[', ETA(),']', '\n']
 
