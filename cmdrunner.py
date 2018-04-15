@@ -128,7 +128,9 @@ for device in pbar(devices):
     device['password'] = password
     try:
         print(Fore.WHITE + '='*79 + Style.RESET_ALL)
-        print('Connecting to device:', device['ip'])
+        current_timestamp = datetime.datetime.now()
+        current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
+        print(current_time, '- Connecting to device:', device['ip'])
         print('-'*79)
 
         # SSH into each device from "x.json" (2nd argument).
