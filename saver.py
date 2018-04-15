@@ -3,7 +3,7 @@
 ###############################################################################
 # Written by:           Aleks Lambreca
 # Creation date:        06/04/2018
-# Last modified date:   06/04/2018
+# Last modified date:   15/04/2018
 # Version:              v1.1
 #
 # Script use:           Telnet into Cisco IOS devices and configure SSH.
@@ -19,10 +19,11 @@
 #                       Specify devices as a .json file
 #                       Note: See "ssh/router/7200.json" as an example
 #
-#
 # Script output:        Cisco IOS command output
+#                       Errors in screen
+#                       Progress bar
 #                       Statistics
-#                       Erros in saver.log
+#                       Log erros in saver.log
 ###############################################################################
 
 
@@ -89,7 +90,9 @@ def processor(device, output_q):
     device['password'] = password
     try:
         print(Fore.WHITE + '='*79 + Style.RESET_ALL)
-        print('Connecting to device:', device['ip'])
+        current_timestamp = datetime.datetime.now()
+        current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
+        print(current_time, '- Connecting to device:', device['ip'])
         print('-'*79)
 
         output_dict = {}
