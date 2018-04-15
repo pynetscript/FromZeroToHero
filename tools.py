@@ -26,6 +26,7 @@ def get_credentials():
         password = getpass()
         password_verify = getpass('Retype password: ')
         if password != password_verify:
-            print(Fore.RED+'>> Passwords do not match. Try again.' + Style.RESET_ALL)
+            print(Fore.RED+'>> Passwords do not match. Please try again.' + Style.RESET_ALL)
             password = None
+            continue
         return username, password
