@@ -35,7 +35,6 @@ from colorama import init
 from colorama import Fore
 from colorama import Style
 
-
 # Standard library modules
 import netmiko
 import json
