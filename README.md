@@ -145,8 +145,8 @@ Then the script will:
 - Show progress bar
 
 Errors:
-- If the is an authentication error we will get an error message `r5.a-corp.com >> Authentication error`
-- If the is an connectivity (TCP/23) error we will get an error message `192.168.1.160 >> TCP/23 connectivity error`
+- If the is an authentication error we will get an error message `15/04/2018 15:28:09 - Authentication error - r5.a-corp.com`
+- If the is an connectivity (TCP/23) error we will get an error message `15/04/2018 15:28:27 - TCP/23 connectivity error - 192.168.1.160`
 - Errors are logged in cmdrunner.log
 
 Finally the script will:
@@ -163,8 +163,8 @@ Finally the script will:
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           15/04/2018 13:07:56                               |
-| Script ended:             15/04/2018 13:12:32                               |
+| Script started:           15/04/2018 15:19:20                               |
+| Script ended:             15/04/2018 15:23:57                               |
 | Script duration (h:m:s):  0:04:36                                           |
 +-----------------------------------------------------------------------------+
 ```
@@ -239,7 +239,8 @@ Disable telnet (yes/no)? yes
                                                                                
 N/A% [                                            ] [0 of 3] [ETA:  --:--:--]
 ===============================================================================
-15/04/2018 13:07:56 - Connecting to device: r5.a-corp.com
+15/04/2018 15:19:20 - Connecting to device: r5.a-corp.com
+15/04/2018 15:19:29 - Successfully connected - r5.a-corp.com
 -------------------------------------------------------------------------------
 [R5] [r5.a-corp.com] >> ip domain-name a-corp.com
 
@@ -259,7 +260,7 @@ R5(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 18 seconds)
+[OK] (elapsed time was 14 seconds)
 
 R5(config)#end
 R5#
@@ -276,7 +277,8 @@ R5#
                                                                                
  33% [##############                              ] [1 of 3] [ETA:   0:03:04]
 ===============================================================================
-15/04/2018 13:09:28 - Connecting to device: 192.168.1.160
+15/04/2018 15:20:52 - Connecting to device: 192.168.1.160
+15/04/2018 15:21:01 - Successfully connected - 192.168.1.160
 -------------------------------------------------------------------------------
 [R6] [192.168.1.160] >> ip domain-name a-corp.com
 
@@ -296,7 +298,7 @@ R6(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 20 seconds)
+[OK] (elapsed time was 10 seconds)
 
 R6(config)#end
 R6#
@@ -313,7 +315,8 @@ R6#
                                                                                
  66% [#############################               ] [2 of 3] [ETA:   0:01:32]
 ===============================================================================
-15/04/2018 13:11:00 - Connecting to device: 2001:db8:acab:a001::170
+15/04/2018 15:22:25 - Connecting to device: 2001:db8:acab:a001::170
+15/04/2018 15:22:33 - Successfully connected - 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
 [R7] [2001:db8:acab:a001::170] >> ip domain-name a-corp.com
 
@@ -333,7 +336,7 @@ R7(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 10 seconds)
+[OK] (elapsed time was 13 seconds)
 
 R7(config)#end
 R7#
@@ -354,8 +357,8 @@ R7#
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           15/04/2018 13:07:56                               |
-| Script ended:             15/04/2018 13:12:32                               |
+| Script started:           15/04/2018 15:19:20                               |
+| Script ended:             15/04/2018 15:23:57                               |
 | Script duration (h:m:s):  0:04:36                                           |
 +-----------------------------------------------------------------------------+
 ```
@@ -379,19 +382,18 @@ Disable telnet (yes/no)? yes
                                                                                
 N/A% [                                            ] [0 of 3] [ETA:  --:--:--]
 ===============================================================================
-15/04/2018 13:14:56 - Connecting to device: r5.a-corp.com
--------------------------------------------------------------------------------
-r5.a-corp.com >> Authentication error
+15/04/2018 15:27:56 - Connecting to device: r5.a-corp.com
+15/04/2018 15:28:09 - Authentication error - r5.a-corp.com
                                                                                
  33% [##############                              ] [1 of 3] [ETA:   0:00:27]
 ===============================================================================
-15/04/2018 13:15:10 - Connecting to device: 192.168.1.160
--------------------------------------------------------------------------------
-192.168.1.160 >> TCP/23 connectivity error
+15/04/2018 15:28:09 - Connecting to device: 192.168.1.160
+15/04/2018 15:28:27 - TCP/23 connectivity error - 192.168.1.160
                                                                                
- 66% [#############################               ] [2 of 3] [ETA:   0:00:08]
+ 66% [#############################               ] [2 of 3] [ETA:   0:00:15]
 ===============================================================================
-15/04/2018 13:15:13 - Connecting to device: 2001:db8:acab:a001::170
+15/04/2018 15:28:27 - Connecting to device: 2001:db8:acab:a001::170
+15/04/2018 15:28:36 - Successfully connected - 2001:db8:acab:a001::170
 -------------------------------------------------------------------------------
 [R7] [2001:db8:acab:a001::170] >> ip domain-name a-corp.com
 
@@ -411,7 +413,7 @@ R7(config)#crypto key generate rsa label SSH mod 2048
 
 % The key modulus size is 2048 bits
 % Generating 2048 bit RSA keys, keys will be non-exportable...
-[OK] (elapsed time was 9 seconds)
+[OK] (elapsed time was 8 seconds)
 
 R7(config)#end
 R7#
@@ -426,23 +428,23 @@ R7(config-line)#transport input ssh
 R7(config-line)#end
 R7#
                                                                                
-100% [############################################] [3 of 3] [Time:  0:01:48]
+100% [############################################] [3 of 3] [Time:  0:02:03]
 
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           15/04/2018 13:14:56                               |
-| Script ended:             15/04/2018 13:16:45                               |
-| Script duration (h:m:s):  0:01:49                                           |
+| Script started:           15/04/2018 15:27:56                               |
+| Script ended:             15/04/2018 15:30:00                               |
+| Script duration (h:m:s):  0:02:03                                           |
 +-----------------------------------------------------------------------------+
 ```
 
 # cmdrunner.log
 
 ```
-15/04/2018 13:15:10 - WARNING - Telnet login failed: r5.a-corp.com
-15/04/2018 13:15:13 - WARNING - [Errno 113] No route to host
+15/04/2018 15:28:09 - WARNING - Telnet login failed: r5.a-corp.com
+15/04/2018 15:28:27 - WARNING - [Errno 113] No route to host
 ```
 
 
@@ -455,43 +457,38 @@ Username: a.lambreca
 Password: 
 Retype password: 
 ===============================================================================
-15/04/2018 13:21:42 - Connecting to device: r5.a-corp.com
--------------------------------------------------------------------------------
+15/04/2018 16:10:03 - Connecting to device: r5.a-corp.com
+15/04/2018 16:10:03 - Connecting to device: 192.168.1.160
+15/04/2018 16:10:04 - Connecting to device: 2001:db8:acab:a001::170
+
+15/04/2018 16:10:09 - Successfully connected - r5.a-corp.com
+
+15/04/2018 16:10:09 - Successfully connected - 2001:db8:acab:a001::170
+
+15/04/2018 16:10:11 - Successfully connected - 192.168.1.160
 ===============================================================================
-15/04/2018 13:21:42 - Connecting to device: 192.168.1.160
--------------------------------------------------------------------------------
+[R5] [r5.a-corp.com] >> write memory
+
+Building configuration...
+[OK]
 ===============================================================================
-15/04/2018 13:21:42 - Connecting to device: 2001:db8:acab:a001::170
--------------------------------------------------------------------------------
-[R5] [r5.a-corp.com]
-
->> write memory
-Building configuration...
-[OK]
--------------------------------------------------------------------------------
-
-[R7] [2001:db8:acab:a001::170]
-
->> write memory
-Building configuration...
-[OK]
--------------------------------------------------------------------------------
-
-[R6] [192.168.1.160]
-
->> write memory
+[R7] [2001:db8:acab:a001::170] >> write memory
 
 Building configuration...
 [OK]
--------------------------------------------------------------------------------
+===============================================================================
+[R6] [192.168.1.160] >> write memory
 
+
+Building configuration...
+[OK]
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           15/04/2018 13:21:42                               |
-| Script ended:             15/04/2018 13:22:01                               |
-| Script duration (h:m:s):  0:00:18                                           |
+| Script started:           15/04/2018 16:10:03                               |
+| Script ended:             15/04/2018 16:10:20                               |
+| Script duration (h:m:s):  0:00:16                                           |
 +-----------------------------------------------------------------------------+
 ```
 
@@ -508,33 +505,28 @@ Username: a.lambreca
 Password: 
 Retype password: 
 ===============================================================================
-15/04/2018 13:59:37 - Connecting to device: r5.a-corp.com
--------------------------------------------------------------------------------
-===============================================================================
-15/04/2018 13:59:37 - Connecting to device: 192.168.1.160
--------------------------------------------------------------------------------
-===============================================================================
-15/04/2018 13:59:37 - Connecting to device: 2001:db8:acab:a001::170
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-192.168.1.160 >> TCP/22 connectivity error
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-r5.a-corp.com >> Authentication error
--------------------------------------------------------------------------------
-[R7] [2001:db8:acab:a001::170]
+15/04/2018 16:07:50 - Connecting to device: r5.a-corp.com
+15/04/2018 16:07:51 - Connecting to device: 192.168.1.160
+15/04/2018 16:07:51 - Connecting to device: 2001:db8:acab:a001::170
 
->> write memory
+15/04/2018 16:07:54 - TCP/22 connectivity error - 192.168.1.160
+
+
+15/04/2018 16:07:54 - Authentication error - r5.a-corp.com
+
+
+15/04/2018 16:07:56 - Successfully connected - 2001:db8:acab:a001::170
+===============================================================================
+[R7] [2001:db8:acab:a001::170] >> write memory
+
 Building configuration...
 [OK]
--------------------------------------------------------------------------------
-
 ===============================================================================
 +-----------------------------------------------------------------------------+
 |                              SCRIPT STATISTICS                              |
 |-----------------------------------------------------------------------------|
-| Script started:           15/04/2018 13:59:36                               |
-| Script ended:             15/04/2018 13:59:49                               |
+| Script started:           15/04/2018 16:07:50                               |
+| Script ended:             15/04/2018 16:08:03                               |
 | Script duration (h:m:s):  0:00:12                                           |
 +-----------------------------------------------------------------------------+
 ```
@@ -542,7 +534,7 @@ Building configuration...
 # saver.log
 
 ```
-15/04/2018 13:59:40 - WARNING - Connection to device timed-out: cisco_ios 192.168.1.160:22
-15/04/2018 13:59:40 - WARNING - Authentication failure: unable to connect cisco_ios r5.a-corp.com:22
+15/04/2018 16:07:54 - WARNING - Connection to device timed-out: cisco_ios 192.168.1.160:22
+15/04/2018 16:07:54 - WARNING - Authentication failure: unable to connect cisco_ios r5.a-corp.com:22
 Authentication failed.
 ```
