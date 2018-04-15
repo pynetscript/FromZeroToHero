@@ -161,8 +161,8 @@ for device in pbar(devices):
         else:
             for cmd in disable_telnet:
                 print('[{0}] [{1}] >> '.format(hostname, ip) + cmd)
-                print()
-                print(connection.send_config_set(disable_telnet))
+            print()
+            print(connection.send_config_set(disable_telnet))
         
         # Disconnect SSH session.
         connection.disconnect()
