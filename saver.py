@@ -15,7 +15,7 @@
 #                       Valid command looks like:
 #                       ./saver.py ssh/router/7200.json
 #
-# Script input:         SSH Username/Password
+# Script input:         Username/Password
 #                       Specify devices as a .json file
 #                       Note: See "ssh/router/7200.json" as an example
 #
@@ -93,16 +93,20 @@ def processor(device, output_q):
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
         print(current_time, '- Connecting to device:', device['ip'])
-        print('-'*79)
 
         output_dict = {}
 
         # SSH into each device from "x.json" (2nd argument).
         connection = netmiko.ConnectHandler(**device)
 
+        print(Fore.WHITE + '='*79 + Style.RESET_ALL)
+        current_timestamp = datetime.datetime.now()
+        current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
+        print(current_time, '- Successfully connected -', device['ip'])
+
         # Get device's "hostname" from netmiko, and "ip" from .json
         hostname = connection.base_prompt
-        json_ip = (device['ip'])
+        ip = (device['ip'])
 
         # Save running-config to startup-config.
         # Put into "output". 
@@ -113,12 +117,10 @@ def processor(device, output_q):
             save_conf = connection.send_command_timing('')
 
         output = ('') + "\n"
-        output += (Fore.RED + '>> write memory' + Style.RESET_ALL) + "\n"
-        output += (save_conf) + "\n"
-        output += ('-'*79) + "\n"
+        output += (save_conf)
 
-        # Put everything from "output" into "output_dict" in the format "[hostname] [IP]".
-        output_dict['[{0}] [{1}]'.format(hostname, json_ip)] = output
+        # Put everything from "output" into "output_dict".
+        output_dict[Fore.WHITE + '='*79 + Style.RESET_ALL + '\n' + '[{0}] [{1}] >> write memory'.format(hostname, ip)] = output
 
         # Put "output_dict" into queue named "output_q".
         output_q.put(output_dict)
@@ -126,19 +128,24 @@ def processor(device, output_q):
         # Disconnect SSH session.
         connection.disconnect()
 
+
     except netmiko_ex_auth as ex_auth:
-        print('-'*79)
-        print(Fore.RED + device['ip'], '>> Authentication error' + Style.RESET_ALL)
-        # Log the error on the working directory in saver.log
+        print()
+        current_timestamp = datetime.datetime.now()
+        current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
+        print(Fore.RED + current_time, '- Authentication error -', device['ip'] + Style.RESET_ALL)
+        # Log the error on the working directory in cmdrunner.log
         logger.warning(ex_auth)
-        print('-'*79)
+        print()
 
     except netmiko_ex_time as ex_time:
-        print('-'*79)
-        print(Fore.RED + device['ip'], '>> TCP/22 connectivity error' + Style.RESET_ALL)
-        # Log the error on the working directory in saver.log
+        print()
+        current_timestamp = datetime.datetime.now()
+        current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
+        print(Fore.RED + current_time, '- TCP/22 connectivity error -', device['ip'] + Style.RESET_ALL)
+        # Log the error on the working directory in cmdrunner.log
         logger.warning(ex_time)
-        print('-'*79)
+        print()
 
 
 def main():
