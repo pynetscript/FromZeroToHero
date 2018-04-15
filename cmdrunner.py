@@ -178,7 +178,7 @@ for device in pbar(devices):
     except netmiko_ex_time as ex_time:
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
-        print(Fore.RED + current_time, '- TCP/22 connectivity error -', device['ip'] + Style.RESET_ALL)
+        print(Fore.RED + current_time, '- TCP/23 connectivity error -', device['ip'] + Style.RESET_ALL)
         # Log the error on the working directory in cmdrunner.log
         logger.warning(ex_time)
 
