@@ -100,7 +100,7 @@ def processor(device, output_q):
         # SSH into each device from "x.json" (2nd argument).
         connection = netmiko.ConnectHandler(**device)
 
-        # Get device's hostname and "ip" from .json
+        # Get device's "hostname" from netmiko, and "ip" from .json
         hostname = connection.base_prompt
         json_ip = (device['ip'])
 
