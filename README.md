@@ -65,7 +65,6 @@ pip install -r requirements.txt
 
 # tools.py
 
-
 - tools.py is going to be imported on our main script (cmdrunner.py).
 - This way we have a cleaner main script.
 - Function (get_input)
