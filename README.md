@@ -19,7 +19,7 @@ Script use:           Telnet into Cisco IOS devices and configure SSH.
                       Valid command looks like:
                       ./cmdrunner.py telnet/router/7200.json
 
-Script input:         SSH Username/Password
+Script input:         Username/Password
                       Specify devices as a .json file
                       Note: See "telnet/router/7200.json" as an example
                       Prompt: "Enter domain name (example.com):"
