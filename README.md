@@ -138,6 +138,8 @@ N/A% [                                            ] [0 of 3] [ETA:  --:--:--]
 Then the script will:   
 - Timestamp the date & time the script started in D/M/Y H:M:S format. 
 - **Telnet** to the first device in the <2nd_argument> (.json).
+- Get device's "hostname" from netmiko.
+- Get device's "ip" from .json
 - Run the domain name command that it prompted us earlier. 
 - Generate SSH keys    
   - I added a delay factor on this command because it takes a while to generate the SSH keys.  
@@ -199,15 +201,15 @@ Then the script will:
   - Define a queue with size of 40
   - Use multiple processors and run the ` processor(device, output_q)` function: 
     - **SSH** to all the devices at once in the <2nd_argument> (.json)    
-    - Get devices` hostname.
-    - Get devices` "ip" from .json
+    - Get device's "hostname" from netmiko.
+    - Get device's "ip" from .json
     - Save the running-config to startup-config - put into variable "output". 
-    - Put everything from variable "output" into "output_dict" in the format "[hostname] [IP]".
+    - Put everything from variable "output" into "output_dict".
     - Put "output_dict" into queue named "output_q".
     - Disconnect the SSH sessions.  
     - Errors:
-      - If the is an authentication error we will get an error message `r5.a-corp.com >> Authentication error`
-      - If the is an connectivity (TCP/22) error we will get an error message `192.168.1.160 >> TCP/22 connectivity error`
+      - If the is an authentication error we will get an error message `15/04/2018 16:07:54 - Authentication error - r5.a-corp.com`.
+      - If the is an connectivity (TCP/22) error we will get an error message `15/04/2018 16:07:54 - TCP/22 connectivity error - 192.168.1.160`.
       - Errors are logged in saver.log
   - Makes sure all processes have finished
   - Uses a queue to pass the output back to the parent process.
