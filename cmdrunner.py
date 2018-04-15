@@ -3,7 +3,7 @@
 ###############################################################################
 # Written by:           Aleks Lambreca
 # Creation date:        09/09/2017
-# Last modified date:   14/04/2018
+# Last modified date:   15/04/2018
 # Version:              v1.2
 #
 # Script use:           Telnet into Cisco IOS devices and configure SSH.
@@ -93,7 +93,7 @@ print(Fore.WHITE + '='*79 + Style.RESET_ALL)
 get_domain_name = tools.get_input('Enter domain name (example.com): ')
 domain_name = ('ip domain-name ' + get_domain_name)
 
-# Prompt for domain name
+# Prompt for SSH key size
 get_keygen = tools.get_input('Enter SSH key size (1024, 2048, 4096): ')
 keygen = ('crypto key generate rsa label SSH mod ' + get_keygen)
 
@@ -150,8 +150,8 @@ for device in pbar(devices):
         print(connection.send_config_set(keygen, delay_factor=10))
         print('-'*79)
 
-        # If list empty (we chose "no") skip it.
-        # If list not empty (we chose "yes") disable telnet.
+        # If "disable_telnet" list empty (we chose "no") skip it.
+        # If "disable_telnet" list not empty (we chose "yes") disable telnet.
         if not disable_telnet:
             pass
         else:
