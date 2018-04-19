@@ -4,35 +4,32 @@
 
 # FromZeroToHero
 
-```
-Written by:           Aleks Lambreca
-Creation date:        09/09/2017
-Last modified date:   15/04/2018
-Version:              v1.2
 
-Script use:           Telnet into Cisco IOS devices and configure SSH.
-                      Note: Supports both IPv4 and IPv6 addresses and FQDNs
-                            Both Py2 and Py3 compatible
-                      The script needs 2 arguments to work:
-                      - 1st argument: cmdrunner.py
-                      - 2nd argument: /x.json
-                      Valid command looks like:
-                      ./cmdrunner.py telnet/router/7200.json
+### Script use
+- Telnet into Cisco IOS devices and configure SSH.
+  - Supports both IPv4 and IPv6 addresses and FQDNs
+  - Both Py2 and Py3 compatible
+- The script needs 2 arguments to work:
+  - 1st argument: `cmdrunner.py`
+  - 2nd argument: `/x.json`
+  - Valid command looks like: `./cmdrunner.py telnet/router/7200.json`
 
-Script input:         Username/Password
-                      Specify devices as a .json file
-                      Note: See "telnet/router/7200.json" as an example
-                      Prompt: "Enter domain name (example.com):"
-                      Prompt: "Enter SSH key size (1024, 2048, 4096):"
-                      Prompt: "Disable telnet (yes/no)?"
+### Script input
+Script input:
+- Username/Password
+- Specify devices as a .json file
+  - See `telnet/router/7200.json` as an example
+- Prompt: "Enter domain name (example.com):"
+- Prompt: "Enter SSH key size (1024, 2048, 4096):"
+- Prompt: "Disable telnet (yes/no)?"
 
-Script output:        Cisco IOS command output
-                      Errors in screen
-                      Progress bar
-                      Statistics                      
-                      Log erros in cmdrunner.log
-                      Travis CI build notification to Slack private channel
-```
+### Script output
+- Cisco IOS command output
+- Errors in screen
+- Progress bar
+- Statistics
+- Log erros in `cmdrunner.log`
+- Travis CI build notification to Slack private channel
 
 
 # Prerequisites
