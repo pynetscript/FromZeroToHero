@@ -45,6 +45,7 @@ Script output:        Cisco IOS command output
 
 ```
 mkdir /FromZeroToHero/ && cd /FromZeroToHero/
+sudo apt-get install -y python-pip
 sudo apt-get install -y git
 git clone -b https://github.com/pynetscript/FromZeroToHero.git . 
 pip install -r requirements.txt
