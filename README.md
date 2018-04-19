@@ -15,7 +15,6 @@
   - Valid command looks like: `./cmdrunner.py telnet/router/7200.json`
 
 ### Script input
-Script input:
 - Username/Password
 - Specify devices as a .json file
   - See `telnet/router/7200.json` as an example
