@@ -3,7 +3,7 @@
 ###############################################################################
 # Written by:           Aleks Lambreca
 # Creation date:        09/09/2017
-# Last modified date:   15/04/2018
+# Last modified date:   23/04/2018
 # Version:              v1.2
 #
 # Script use:           Telnet into Cisco IOS devices and configure SSH.
@@ -35,10 +35,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-from colorama import init
-from colorama import Fore
-from colorama import Style
-from progressbar import *
 
 # Standard library modules
 import netmiko
@@ -50,6 +46,9 @@ import time
 import logging
 import socket
 import os
+
+from colorama import Fore, Style
+from progressbar import *
 
 # Local modules
 import tools
@@ -76,7 +75,7 @@ netmiko_ex_auth = (netmiko.ssh_exception.NetMikoAuthenticationException)
 
 # If arguments not equal to 2 we get an error.
 if len(sys.argv) != 2:
-    print('>> Usage: cmdrunner.py /x.json')
+    print('>> Usage:', sys.argv[0].split('/')[-1], '/x.txt')
     exit()
 
 
