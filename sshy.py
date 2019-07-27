@@ -3,7 +3,7 @@
 ###############################################################################
 # Written by:           Aleks Lambreca
 # Creation date:        09/09/2017
-# Last modified date:   23/04/2018
+# Last modified date:   27/07/2019
 # Version:              v1.2
 #
 # Script use:           Telnet into Cisco IOS devices and configure SSH.
