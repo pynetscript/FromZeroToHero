@@ -10,10 +10,10 @@
 #                       Note: Supports both IPv4 and IPv6 addresses and FQDNs
 #                             Both Py2 and Py3 compatible
 #                       The script needs 2 arguments to work:
-#                       - 1st argument: cmdrunner.py
+#                       - 1st argument: sshy.py
 #                       - 2nd argument: /x.json
 #                       Valid command looks like:
-#                       ./cmdrunner.py telnet/router/7200.json
+#                       ./sshy.py telnet/router/7200.json
 #
 # Script input:         Username/Password
 #                       Specify devices as a .json file
@@ -26,7 +26,7 @@
 #                       Errors in screen
 #                       Progress bar
 #                       Statistics
-#                       Log erros in cmdrunner.log
+#                       Log erros in sshy.log
 #                       Travis CI build notification to Slack private channel
 ###############################################################################
 
@@ -54,9 +54,9 @@ from progressbar import *
 import tools
 
 
-# Logs on the working directory on the file named cmdrunner.log
+# Logs on the working directory on the file named sshy.log
 logger = logging.getLogger('__name__')
-hdlr = logging.FileHandler('cmdrunner.log')
+hdlr = logging.FileHandler('sshy.log')
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
 hdlr.setFormatter(formatter)
 logger.addHandler(hdlr)
@@ -171,14 +171,14 @@ for device in pbar(devices):
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
         print(Fore.RED + current_time, '- Authentication error -', device['ip'] + Style.RESET_ALL)
-        # Log the error on the working directory in cmdrunner.log
+        # Log the error on the working directory in sshy.log
         logger.warning(ex_auth)
 
     except netmiko_ex_time as ex_time:
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
         print(Fore.RED + current_time, '- TCP/23 connectivity error -', device['ip'] + Style.RESET_ALL)
-        # Log the error on the working directory in cmdrunner.log
+        # Log the error on the working directory in sshy.log
         logger.warning(ex_time)
 
 
