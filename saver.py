@@ -72,7 +72,7 @@ netmiko_ex_auth = (netmiko.ssh_exception.NetMikoAuthenticationException)
 
 # If arguments not equal to 2 we get an error.
 if len(sys.argv) != 2:
-    print('>> Usage: cmdrunner.py /x.json')
+    print('>> Usage: sshy.py /x.json')
     exit()
 
 
@@ -132,7 +132,7 @@ def processor(device, output_q):
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
         print(Fore.RED + current_time, '- Authentication error -', device['ip'] + Style.RESET_ALL)
-        # Log the error on the working directory in cmdrunner.log
+        # Log the error on the working directory in sshy.log
         logger.warning(ex_auth)
         print()
 
@@ -141,7 +141,7 @@ def processor(device, output_q):
         current_timestamp = datetime.datetime.now()
         current_time = current_timestamp.strftime('%d/%m/%Y %H:%M:%S')
         print(Fore.RED + current_time, '- TCP/22 connectivity error -', device['ip'] + Style.RESET_ALL)
-        # Log the error on the working directory in cmdrunner.log
+        # Log the error on the working directory in sshy.log
         logger.warning(ex_time)
         print()
 
