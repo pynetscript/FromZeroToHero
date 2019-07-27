@@ -2,7 +2,7 @@
 [![GitHub release](https://img.shields.io/badge/version-1.2-blue.svg)](https://github.com/pynetscript/FromZeroToHero)
 
 
-# FromZeroToHero
+# sshy
 
 
 ### Script use
@@ -10,9 +10,9 @@
   - Supports both IPv4 and IPv6 addresses and FQDNs
   - Both Py2 and Py3 compatible
 - The script needs 2 arguments to work:
-  - 1st argument: `cmdrunner.py`
+  - 1st argument: `sshy.py`
   - 2nd argument: `/x.json`
-  - Valid command looks like: `./cmdrunner.py telnet/router/7200.json`
+  - Valid command looks like: `./sshy.py telnet/router/7200.json`
 
 ### Script input
 - Username/Password
@@ -27,7 +27,7 @@
 - Errors in screen
 - Progress bar
 - Statistics
-- Log erros in `cmdrunner.log`
+- Log erros in `sshy.log`
 - Travis CI build notification to Slack private channel
 
 
@@ -53,7 +53,7 @@ pip install -r requirements.txt   # if it fails try: sudo python -m pip install 
 - What language: **Python**
 - What versions: **2.7** , **3.4** , **3.5** , **3.6**
 - What to install: **pip install -r requirements.txt**
-- What to run: **python cmdrunner.py**
+- What to run: **python sshy.py**
 - Where to send notifications: **pynetscript:3GF5L6jlBvYl9TA5mrcJ87rq** 
   - Install Travis CI on [Slack](https://pynetscript.slack.com) and at some point it will output a slack channel to use.
   - Replace **pynetscript:3GF5L6jlBvYl9TA5mrcJ87rq** with your own channel.
@@ -62,7 +62,7 @@ pip install -r requirements.txt   # if it fails try: sudo python -m pip install 
 
 # tools.py
 
-- tools.py is going to be imported on our main script (cmdrunner.py).
+- tools.py is going to be imported on our main script (sshy.py).
 - This way we have a cleaner main script.
 - Function (get_input)
     - Get input that is both Py2 and Py3 compatible
@@ -96,10 +96,10 @@ cisco_ios_telnet,2001:db8:acab:a001::170
 {"device_type":"cisco_ios_telnet","ip":"2001:db8:acab:a001::170"}]
 ```
 
-- Finally i copy/pasted the output into telnet/router/7200.json which is going to be used by cmdrunner.py as the <2nd_argument>.   
+- Finally i copy/pasted the output into telnet/router/7200.json which is going to be used by sshy.py as the <2nd_argument>.   
 
 
-# 1st argument (cmdrunner.py)
+# 1st argument (sshy.py)
 
 This is the main script that we will run.   
 Legal examples:   
@@ -107,10 +107,10 @@ Legal examples:
 - `python3 <1st_argument> <2nd_argument>`
 
 Let's use the following example to explain the script:    
-- `python3 cmdrunner.py telnet/router/7200.json`
+- `python3 sshy.py telnet/router/7200.json`
 
 First the script will:     
-- Create a log file named "cmdrunner.log".
+- Create a log file named "sshy.log".
 - Prompt us for a username and a password (password required twice).
 - Prompt us for the domain name.
 - Prompt us for the SSH key size.
@@ -147,7 +147,7 @@ Then the script will:
 Errors:
 - If the is an authentication error we will get an error message `15/04/2018 15:28:09 - Authentication error - r5.a-corp.com`
 - If the is an connectivity (TCP/23) error we will get an error message `15/04/2018 15:28:27 - TCP/23 connectivity error - 192.168.1.160`
-- Errors are logged in cmdrunner.log
+- Errors are logged in sshy.log
 
 Finally the script will:
 - Repeat the process for all devices in <2nd_argument> (.json) 
@@ -224,10 +224,10 @@ Then the script will:
 +-----------------------------------------------------------------------------+
 ```
   
-# Successful demo (cmdrunner.py)
+# Successful demo (sshy.py)
 
 ```
-aleks@acorp:~/FromZeroToHero$ python3 cmdrunner.py telnet/router/7200.json
+aleks@acorp:~/FromZeroToHero$ python3 sshy.py telnet/router/7200.json
 ===============================================================================
 Username: a.lambreca
 Password: 
@@ -364,14 +364,14 @@ R7#
 +-----------------------------------------------------------------------------+
 ```
 
-# Unsuccessful demo (cmdrunner.py)
+# Unsuccessful demo (sshy.py)
 
 - R5: I have misconfigured authentication.
 - R6: I have no Telnet (TCP/23) reachability.
 - R7: This router is configured correctly.
 
 ```
-aleks@acorp:~/FromZeroToHero$ python3 cmdrunner.py telnet/router/7200.json
+aleks@acorp:~/FromZeroToHero$ python3 sshy.py telnet/router/7200.json
 ===============================================================================
 Username: a.lambreca
 Password: 
@@ -441,7 +441,7 @@ R7#
 +-----------------------------------------------------------------------------+
 ```
 
-# cmdrunner.log
+# sshy.log
 
 ```
 15/04/2018 15:28:09 - WARNING - Telnet login failed: r5.a-corp.com
