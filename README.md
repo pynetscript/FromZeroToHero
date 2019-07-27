@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/pynetscript/FromZeroToHero.svg?branch=master)](https://travis-ci.org/pynetscript/FromZeroToHero)
 [![GitHub release](https://img.shields.io/badge/version-1.2-blue.svg)](https://github.com/pynetscript/FromZeroToHero)
-[![license](https://img.shields.io/github/license/pynetscript/FromZeroToHero.svg)](https://github.com/pynetscript/FromZeroToHero/blob/master/LICENSE)
+
 
 # FromZeroToHero
 
