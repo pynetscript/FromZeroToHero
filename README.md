@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pynetscript/FromZeroToHero.svg?branch=master)](https://travis-ci.org/pynetscript/FromZeroToHero)
+[![Build Status](https://travis-ci.org/pynetscript/sshy.svg?branch=master)](https://travis-ci.org/pynetscript/sshy)
 [![GitHub release](https://img.shields.io/badge/version-1.2-blue.svg)](https://github.com/pynetscript/FromZeroToHero)
 
 
